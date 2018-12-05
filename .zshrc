@@ -63,7 +63,7 @@ export IDEA_JDK=$JAVA_HOME
 # ALIASES
 #
 alias ls="ls -Gh"
-alias rg="rg -F -S"
+alias rg="rg --smart-case"
 alias config='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
 
 #
@@ -76,3 +76,5 @@ if [ -f '/Users/cnguyen/libs/google-cloud-sdk/path.zsh.inc' ]; then source '/Use
 if [ -f '/Users/cnguyen/libs/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/cnguyen/libs/google-cloud-sdk/completion.zsh.inc'; fi
 
 #zprof
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

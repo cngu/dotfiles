@@ -1,16 +1,129 @@
-set tabstop=2       " The width of a TAB is set to 4.
-                    " Still it is a \t. It is just that
-                    " Vim will interpret it to be having
-                    " a width of 4.
-set shiftwidth=2    " Indents will have a width of 4
-set softtabstop=2   " Sets the number of columns for a TAB
-set expandtab       " Expand TABs to spaces
+"
+" Also see $VIMRUNTIME/vimrc_example.vim and $VIMRUNTIME/defaults.vim.
+"
+" ============================================================================
+" VIM 8 DEFAULTS {{{
+" ============================================================================
+let s:darwin = has('mac')
 
+" }}}
+" ============================================================================
+" VIM-PLUG {{{
+" ============================================================================
+call plug#begin('~/.vim/plugged')
+
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+nmap <c-p> :Files<CR>
+
+Plug 'jremmen/vim-ripgrep'
+let g:rg_highlight = 1
+let g:rg_format = '%f:%l:%c:%m'
+
+Plug 'junegunn/vim-slash'
+" noremap <plug>(slash-after) zz
+if has('timers')
+  " Blink 2 times with 50ms interval
+  noremap <expr> <plug>(slash-after) slash#blink(2, 50)
+endif
+
+Plug 'justinmk/vim-gtfo'
+Plug 'tpope/vim-fugitive'
+if s:darwin
+  Plug 'junegunn/vim-xmark'
+endif
+
+Plug 'tpope/vim-commentary'
+
+Plug 'tpope/vim-surround'
+
+Plug 'posva/vim-vue'
+Plug 'pangloss/vim-javascript'
+
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+augroup nerd_loader
+  autocmd!
+  autocmd VimEnter * silent! autocmd! FileExplorer
+  autocmd BufEnter,BufNew *
+        \  if isdirectory(expand('<amatch>'))
+        \|   call plug#load('nerdtree')
+        \|   execute 'autocmd! nerd_loader'
+        \| endif
+augroup END
+
+Plug 'Yggdroot/indentLine'
+" let g:indentLine_char = '⎸'
+Plug 'elzr/vim-json'
+let g:vim_json_syntax_conceal = 0
+
+Plug 'itchyny/lightline.vim'
+let g:lightline = { 
+  \ 'colorscheme': 'one',
+  \ 'active': {
+  \   'left': [ 
+  \     [ 'mode', 'paste' ],
+  \     [ 'readonly', 'relativepath', 'modified' ] 
+  \   ],
+  \   'right': [ 
+  \     [ 'lineinfo' ],
+  \     [ 'percent' ],
+  \     [ 'gitbranch', 'fileformat', 'fileencoding', 'filetype' ] 
+  \   ]
+  \ },
+  \ 'component_function': {
+  \   'gitbranch': 'fugitive#head'
+  \ }
+\ }
+set laststatus=2
+set noshowmode
+
+Plug 'rakr/vim-one'
+
+call plug#end()
+
+if has('gui_running')
+  syntax on
+  syntax enable
+  set background=dark
+  colorscheme one
+endif
+" }}}
+" ============================================================================
+" BASIC SETTINGS {{{
+" ============================================================================
 set encoding=utf-8
+set number relativenumber " line number
+set ruler " column number
+set colorcolumn=100
 
+set backspace=indent,eol,start
 set clipboard=unnamed
 
-set number relativenumber
+set tabstop=2
+set shiftwidth=2
+set expandtab smarttab
+
+set foldmethod=marker 
+set nofoldenable
+set nomodeline
+
+set incsearch " Highlight search match as I type, but won't keep them highlighted
+set hlsearch
+
+hi QuickFixLine guibg=Black
+" hi Search guibg=LightYellow guifg=Red
+
+" set visualbell
+
+" Move lines up and down with <A-k> and <A-j>
+" nnoremap ∆ :m .+1<CR>==
+" nnoremap ˚ :m .-2<CR>==
+" inoremap ∆ <Esc>:m .+1<CR>==gi
+" inoremap ˚ <Esc>:m .-2<CR>==gi
+" vnoremap ∆ :m '>+1<CR>gv=gv
+" vnoremap ˚ :m '<-2<CR>gv=gv
+
+nnoremap p p=`]
 
 augroup numbertoggle
   autocmd!
@@ -20,78 +133,12 @@ augroup END
 
 " Show command as it's being typed
 set showcmd
+set ignorecase smartcase
 
-" Show line numbers
-set number
-
-set ignorecase
-set smartcase
-
-" Force backspace to work on...
-" - indent: indentation
-" - eol: EOL characters
-" - start: text that wasn't typed in the current insert mode session.
-set backspace=indent,eol,start
-
-" Highlight search match as I type, but won't keep them highlighted
-set incsearch
-
-" Allow switching buffers even if the current one isn't saved.
-set hidden
-
-" Keymaps
-nmap <c-p> :Files<CR>
-
-" Styling
-"highlight MatchParen cterm=bold ctermbg=lightblue
-
-" vim-plug
-call plug#begin('~/.vim/plugged')
-
-Plug 'tpope/vim-obsession'
-Plug 'tpope/vim-surround'
-
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'scrooloose/nerdcommenter'
-Plug 'junegunn/fzf', { 'dir': '~/libs/fzf', 'do': './install --bin' }
-Plug 'junegunn/fzf.vim'
-
-Plug 'posva/vim-vue'
-Plug 'pangloss/vim-javascript'
-"Plug 'digitaltoad/vim-pug'
-"Plug 'othree/html5.vim'
-
-"Plug 'chriskempson/base16-vim'
-Plug 'rakr/vim-one'
-
-"Plug 'vim-airline/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
-call plug#end()
-
-" Color Scheme
-if has('gui_running')
-  syntax enable
-
-  set background=dark
-  colorscheme one
-  
-  " colorscheme base16-materia
-  " colorscheme base16-material
-  " colorscheme base16-eighties
-endif
-
-"set guifont=Droid\ Sans\ Mono\ for\ Powerline
-"let g:airline_theme='bubblegum'
-"let g:airline_theme='one'
-"let g:Powerline_symbols='fancy'
-"let g:airline_powerline_fonts=1
-"let g:airline_section_z = airline#section#create(['%{ObsessionStatus(''$'', '''')}', 'windowswap', '%3p%% ', 'linenr', ':%3v '])
+set hidden " Allow switching buffers even if the current one isn't saved.
 
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1
-
-" nerdcommenter
-let g:NERDSpaceDelims = 1
 
 " grep
 set grepprg=rg\ -F\ -S\ --no-heading\ --vimgrep
@@ -103,12 +150,12 @@ fun! <SID>StripTrailingWhitespaces()
     %s/\s\+$//e
     call cursor(l, c)
 endfun
-
 autocmd FileType c,cpp,java,javascript,python,vue autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
-" vim-vue
+" vim-vue & vim-commentary
 " Author's recommendation to fix bug where highlighting stops working randomly
 autocmd FileType vue syntax sync fromstart
+autocmd FileType vue setlocal commentstring=\/\/\ %s
 let g:vue_disable_pre_processors=1
 
 " Sync cursor color to (vim-one, not bubblegum) Airline color
@@ -119,40 +166,59 @@ autocmd InsertEnter * highlight  CursorLine guibg=#2F3244
 autocmd InsertLeave * highlight  Cursor guibg=#99C27C 
 autocmd InsertLeave * highlight  CursorLine guibg=#2C323C
 
+" }}}
+" ============================================================================
+" PRETTY PRINT FUNCTIONS {{{
+" ============================================================================
+command! PrettyJSON execute "%!python -m json.tool"
+function! DoFormatXML() range
+	" Save the file type
+	let l:origft = &ft
 
-" CTRL-A to copy fzf-vim :Ag to quickfix list
-function! s:ag_to_qf(line)
-  let parts = split(a:line, ':')
-  return {'filename': parts[0], 'lnum': parts[1], 'col': parts[2],
-        \ 'text': join(parts[3:], ':')}
+	" Clean the file type
+	set ft=
+
+	" Add fake initial tag (so we can process multiple top-level elements)
+	exe ":let l:beforeFirstLine=" . a:firstline . "-1"
+	if l:beforeFirstLine < 0
+		let l:beforeFirstLine=0
+	endif
+	exe a:lastline . "put ='</PrettyXML>'"
+	exe l:beforeFirstLine . "put ='<PrettyXML>'"
+	exe ":let l:newLastLine=" . a:lastline . "+2"
+	if l:newLastLine > line('$')
+		let l:newLastLine=line('$')
+	endif
+
+	" Remove XML header
+	exe ":" . a:firstline . "," . a:lastline . "s/<\?xml\\_.*\?>\\_s*//e"
+
+	" Recalculate last line of the edited code
+	let l:newLastLine=search('</PrettyXML>')
+
+	" Execute external formatter
+	exe ":silent " . a:firstline . "," . l:newLastLine . "!xmllint --noblanks --format --recover -"
+
+	" Recalculate first and last lines of the edited code
+	let l:newFirstLine=search('<PrettyXML>')
+	let l:newLastLine=search('</PrettyXML>')
+	
+	" Get inner range
+	let l:innerFirstLine=l:newFirstLine+1
+	let l:innerLastLine=l:newLastLine-1
+
+	" Remove extra unnecessary indentation
+	exe ":silent " . l:innerFirstLine . "," . l:innerLastLine "s/^  //e"
+
+	" Remove fake tag
+	exe l:newLastLine . "d"
+	exe l:newFirstLine . "d"
+
+	" Put the cursor at the first line of the edited code
+	exe ":" . l:newFirstLine
+
+	" Restore the file type
+	exe "set ft=" . l:origft
 endfunction
-
-function! s:ag_handler(lines)
-  if len(a:lines) < 2 | return | endif
-
-  let cmd = get({'ctrl-x': 'split',
-               \ 'ctrl-v': 'vertical split',
-               \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
-  let list = map(a:lines[1:], 's:ag_to_qf(v:val)')
-
-  let first = list[0]
-  execute cmd escape(first.filename, ' %#\')
-  execute first.lnum
-  execute 'normal!' first.col.'|zz'
-
-  if len(list) > 1
-    call setqflist(list)
-    copen
-    wincmd p
-  endif
-endfunction
-
-command! -nargs=* Ag call fzf#run({
-\ 'source':  printf('ag --nogroup --column --color "%s"',
-\                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
-\ 'sink*':    function('<sid>ag_handler'),
-\ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
-\            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
-\            '--color hl:68,hl+:110',
-\ 'down':    '50%'
-\ })
+command! -range=% PrettyXML <line1>,<line2>call DoFormatXML()
+" }}}
