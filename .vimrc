@@ -19,6 +19,8 @@ nmap <c-p> :Files<CR>
 Plug 'jremmen/vim-ripgrep'
 let g:rg_highlight = 1
 let g:rg_format = '%f:%l:%c:%m'
+let g:rg_binary = 'rg'
+let g:rg_command = g:rg_binary . ' -g ' . '!.git' . ' --hidden --vimgrep'
 
 Plug 'junegunn/vim-slash'
 " noremap <plug>(slash-after) zz
@@ -88,9 +90,10 @@ if has('gui_running')
   colorscheme one
 endif
 " }}}
-" ============================================================================
+" ============================================================================{{{
 " BASIC SETTINGS {{{
 " ============================================================================
+set guifont=Consolas:h12
 set encoding=utf-8
 set number relativenumber " line number
 set ruler " column number
@@ -124,6 +127,10 @@ hi QuickFixLine guibg=Black
 " vnoremap ˚ :m '<-2<CR>gv=gv
 
 nnoremap p p=`]
+vnoremap p "_dP`[v`]=
+
+nnoremap x "_x
+vnoremap x "_x
 
 augroup numbertoggle
   autocmd!
@@ -166,11 +173,33 @@ autocmd InsertEnter * highlight  CursorLine guibg=#2F3244
 autocmd InsertLeave * highlight  Cursor guibg=#99C27C 
 autocmd InsertLeave * highlight  CursorLine guibg=#2C323C
 
-" }}}
+" }}}}}}
 " ============================================================================
-" PRETTY PRINT FUNCTIONS {{{
+" FUNCTIONS {{{
 " ============================================================================
+function! BufferDeleteInactive()
+    "From tabpagebuflist() help, get a list of all buffers in all tabs
+    let tablist = []
+    for i in range(tabpagenr('$'))
+        call extend(tablist, tabpagebuflist(i + 1))
+    endfor
+
+    "Below originally inspired by Hara Krishna Dara and Keith Roberts
+    "http://tech.groups.yahoo.com/group/vim/message/56425
+    let nWipeouts = 0
+    for i in range(1, bufnr('$'))
+        if bufexists(i) && !getbufvar(i,"&mod") && index(tablist, i) == -1
+        "bufno exists AND isn't modified AND isn't in the list of buffers open in windows and tabs
+            silent exec 'bwipeout' i
+            let nWipeouts = nWipeouts + 1
+        endif
+    endfor
+    echomsg nWipeouts . ' buffer(s) wiped out'
+endfunction
+command! BufferDeleteInactive :call BufferDeleteInactive()
+
 command! PrettyJSON execute "%!python -m json.tool"
+
 function! DoFormatXML() range
 	" Save the file type
 	let l:origft = &ft
