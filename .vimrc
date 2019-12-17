@@ -6,6 +6,12 @@
 " ============================================================================
 let s:darwin = has('mac')
 
+" netrw
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 2
+let g:netrw_winsize = 25
+
 " }}}
 " ============================================================================
 " VIM-PLUG {{{
@@ -41,22 +47,25 @@ Plug 'tpope/vim-surround'
 
 Plug 'posva/vim-vue'
 Plug 'pangloss/vim-javascript'
+Plug 'othree/html5.vim'
 
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-augroup nerd_loader
-  autocmd!
-  autocmd VimEnter * silent! autocmd! FileExplorer
-  autocmd BufEnter,BufNew *
-        \  if isdirectory(expand('<amatch>'))
-        \|   call plug#load('nerdtree')
-        \|   execute 'autocmd! nerd_loader'
-        \| endif
-augroup END
+" Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+" augroup nerd_loader
+"   autocmd!
+"   autocmd VimEnter * silent! autocmd! FileExplorer
+"   autocmd BufEnter,BufNew *
+"         \  if isdirectory(expand('<amatch>'))
+"         \|   call plug#load('nerdtree')
+"         \|   execute 'autocmd! nerd_loader'
+"         \| endif
+" augroup END
 
 Plug 'Yggdroot/indentLine'
 " let g:indentLine_char = '⎸'
 Plug 'elzr/vim-json'
 let g:vim_json_syntax_conceal = 0
+
+Plug 'rakr/vim-one'
 
 Plug 'itchyny/lightline.vim'
 let g:lightline = { 
@@ -68,18 +77,28 @@ let g:lightline = {
   \   ],
   \   'right': [ 
   \     [ 'lineinfo' ],
-  \     [ 'percent' ],
-  \     [ 'gitbranch', 'fileformat', 'fileencoding', 'filetype' ] 
+  \     [ 'gitbranch', 'fileencoding' ] 
   \   ]
   \ },
   \ 'component_function': {
-  \   'gitbranch': 'fugitive#head'
+  \   'gitbranch': 'LightlineGitBranch',
+  \   'fileencoding': 'LightlineFileencoding'
   \ }
 \ }
-set laststatus=2
-set noshowmode
+function LightlineGitBranch()
+  return winwidth(0) >= 124 ? fugitive#head() : ''
+endfunction
+"fugitive#head
+function LightlineFileencoding()
+  return winwidth(0) >= 124 ? &fileencoding : ''
+endfunction
 
-Plug 'rakr/vim-one'
+Plug 'vimwiki/vimwiki'
+set nocompatible
+filetype plugin indent on
+au BufNewFile,BufRead *.vue			setf vue
+let g:vimwiki_list = [{'path': '~/Google Drive/vimwiki/',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]
 
 call plug#end()
 
@@ -93,11 +112,18 @@ endif
 " ============================================================================{{{
 " BASIC SETTINGS {{{
 " ============================================================================
+set dir=$HOME/.vim/tmp/swap " Separate directory for swap files
+if !isdirectory(&dir) | call mkdir(&dir, 'p', 0700) | endif
+
+set shortmess-=S
+set laststatus=2
+set noshowmode
+
 set guifont=Consolas:h12
 set encoding=utf-8
 set number relativenumber " line number
 set ruler " column number
-set colorcolumn=100
+set colorcolumn=120
 
 set backspace=indent,eol,start
 set clipboard=unnamed
@@ -163,7 +189,7 @@ autocmd FileType c,cpp,java,javascript,python,vue autocmd BufWritePre <buffer> :
 " Author's recommendation to fix bug where highlighting stops working randomly
 autocmd FileType vue syntax sync fromstart
 autocmd FileType vue setlocal commentstring=\/\/\ %s
-let g:vue_disable_pre_processors=1
+let g:vue_pre_processors = []
 
 " Sync cursor color to (vim-one, not bubblegum) Airline color
 highlight Cursor guibg=#99C27C

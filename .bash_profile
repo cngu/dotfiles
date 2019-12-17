@@ -7,12 +7,23 @@ export NVM_DIR="$HOME/.nvm"
 export JAVA_HOME=$(/usr/libexec/java_home)
 export IDEA_JDK=$JAVA_HOME
 
+export PATH=$PATH:/Users/cnguyen/libs/mongodb/bin
 export PATH=$PATH:/Users/cnguyen/libs/gradle-2.14.1/bin
 export PATH=$PATH:/Applications/MacVim.app/Contents/bin
 # }}}
 
 # STYLING AND THEMING {{{
 export TERM="xterm-color" 
+if [ $ITERM_SESSION_ID ]; then
+  # If PC contains anything, add semicolon and space
+  if [ ! -z "$PROMPT_COMMAND" ]; then
+    PROMPT_COMMAND="$PROMPT_COMMAND; "
+  fi
+
+  # Add custom PC
+  ITERM_TITLE='echo -ne "\033];${PWD/#$HOME/~}\007"; ':"$PROMPT_COMMAND";
+  PROMPT_COMMAND=$PROMPT_COMMAND"$ITERM_TITLE"
+fi
 # }}}
 
 # ALIASES {{{
@@ -30,7 +41,7 @@ done
 # }}}
 
 # Must be after scripts above for exit status to work
-source ~/scripts/shell/sh/bash-powerline/bash-powerline.sh
+source ~/scripts/shell/bash/bash-powerline/bash-powerline.sh
 
 source /usr/local/etc/bash_completion.d/git-completion.bash
 
