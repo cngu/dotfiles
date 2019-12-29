@@ -102,14 +102,16 @@ let g:vimwiki_list = [{'path': '~/Google Drive/vimwiki/',
 
 call plug#end()
 
+syntax enable
+set background=dark
+colorscheme one
 if has('gui_running')
-  syntax on
-  syntax enable
-  set background=dark
-  colorscheme one
+else
+  "Change ctermbg black (16) background to #303030
+  call one#highlight('Normal', '', '303030', 'none')
 endif
 " }}}
-" ============================================================================{{{
+" ============================================================================
 " BASIC SETTINGS {{{
 " ============================================================================
 set dir=$HOME/.vim/tmp/swap " Separate directory for swap files
