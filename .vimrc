@@ -8,8 +8,7 @@ let s:darwin = has('mac')
 
 " netrw
 let g:netrw_banner = 0
-let g:netrw_liststyle = 3
-let g:netrw_browse_split = 2
+let g:netrw_liststyle = 0
 let g:netrw_winsize = 25
 
 " }}}
@@ -20,7 +19,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-nmap <c-p> :Files<CR>
+nmap <C-p> :Files<CR>
 
 Plug 'jremmen/vim-ripgrep'
 let g:rg_highlight = 1
@@ -36,29 +35,19 @@ if has('timers')
 endif
 
 Plug 'justinmk/vim-gtfo'
+
 Plug 'tpope/vim-fugitive'
 if s:darwin
   Plug 'junegunn/vim-xmark'
 endif
 
 Plug 'tpope/vim-commentary'
-
 Plug 'tpope/vim-surround'
+Plug 'cngu/vim-vinegar'
 
 Plug 'posva/vim-vue'
 Plug 'pangloss/vim-javascript'
 Plug 'othree/html5.vim'
-
-" Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-" augroup nerd_loader
-"   autocmd!
-"   autocmd VimEnter * silent! autocmd! FileExplorer
-"   autocmd BufEnter,BufNew *
-"         \  if isdirectory(expand('<amatch>'))
-"         \|   call plug#load('nerdtree')
-"         \|   execute 'autocmd! nerd_loader'
-"         \| endif
-" augroup END
 
 Plug 'Yggdroot/indentLine'
 " let g:indentLine_char = '⎸'
