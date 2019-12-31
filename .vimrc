@@ -19,13 +19,20 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 nmap <C-p> :Files<CR>
 
-Plug 'jremmen/vim-ripgrep'
-let g:rg_highlight = 1
-let g:rg_format = '%f:%l:%c:%m'
-let g:rg_binary = 'rg'
-let g:rg_command = g:rg_binary . ' -g ' . '!.git' . ' --hidden --vimgrep'
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case --hidden --glob !.git '.(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
+
+" Plug 'jremmen/vim-ripgrep'
+" let g:rg_highlight = 1
+" let g:rg_format = '%f:%l:%c:%m'
+" let g:rg_binary = 'rg'
+" let g:rg_command = g:rg_binary . ' -g ' . '!.git' . ' --hidden --vimgrep'
 
 Plug 'junegunn/vim-slash'
 " noremap <plug>(slash-after) zz
@@ -111,7 +118,7 @@ set shortmess-=S
 set laststatus=2
 set noshowmode
 
-set guifont=Consolas:h12
+" set guifont=Consolas:h12
 set encoding=utf-8
 set number relativenumber " line number
 set ruler " column number
