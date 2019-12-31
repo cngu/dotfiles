@@ -11,6 +11,8 @@ let g:netrw_banner = 0
 let g:netrw_liststyle = 0
 let g:netrw_winsize = 25
 
+let mapleader = ' '
+let maplocalleader = ' '
 " }}}
 " ============================================================================
 " VIM-PLUG {{{
@@ -21,7 +23,29 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 command! -bang -nargs=? -complete=dir Files
   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-nmap <C-p> :Files<CR>
+nnoremap <Leader>f :Files<CR>
+nnoremap <C-p> :Files<CR>
+nnoremap <Leader>bb :Buffers<CR>
+
+function! s:format_buffer(b)
+  let l:name = bufname(a:b)
+  return printf("%s\t%s", a:b, empty(l:name) ? '[No Name]' : fnamemodify(l:name, ":p:~:."))
+endfunction
+
+function! s:wipeout_buffers()
+  return fzf#run(fzf#wrap({
+    \ 'source':  map(
+    \   filter(
+    \     range(1, bufnr('$')),
+    \     {_, nr -> buflisted(nr) && getbufvar(nr, "&filetype") != "qf" && !getbufvar(nr, "&modified")}
+    \   ),
+    \   {_, nr -> s:format_buffer(nr)}
+    \ ),
+    \ 'sink*': {lines -> execute('bwipeout '.join(map(lines, {_, line -> split(line)[0]})), '')},
+    \ 'options': ['-m', '--tiebreak=index', '--ansi', '-d', '\t', '--prompt', 'Wipeout> ']
+  \}))
+endfunction
+nnoremap <silent> <Leader>bd :<C-u>call <SID>wipeout_buffers()<CR>
 
 " empty q-args check to make sure `:Rg` (i.e. without search query) executes `rg ''` (to match every single line)
 command! -bang -nargs=* Rg
@@ -205,7 +229,7 @@ autocmd InsertLeave * highlight  CursorLine guibg=#2C323C
 " ============================================================================
 " FUNCTIONS {{{
 " ============================================================================
-function! BufferDeleteInactive()
+function! s:BufferDeleteInactive()
     "From tabpagebuflist() help, get a list of all buffers in all tabs
     let tablist = []
     for i in range(tabpagenr('$'))
@@ -224,7 +248,7 @@ function! BufferDeleteInactive()
     endfor
     echomsg nWipeouts . ' buffer(s) wiped out'
 endfunction
-command! BufferDeleteInactive :call BufferDeleteInactive()
+nnoremap <silent> <Leader>bc :call <SID>BufferDeleteInactive()<CR>
 
 command! PrettyJSON execute "%!python -m json.tool"
 
