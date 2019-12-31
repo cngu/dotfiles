@@ -3,3 +3,5 @@
 # --hidden: Search hidden files and folders
 # --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 export FZF_DEFAULT_COMMAND='rg --files --follow --hidden --glob "!.git"'
+
+export FZF_DEFAULT_OPTS='--bind ctrl-h:toggle-preview'
