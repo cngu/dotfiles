@@ -23,3 +23,9 @@ Homebrew: https://brew.sh/
 - thefuck
 - fasd
 - ripgrep
+
+npm install -g
+- tldr
+
+MacOS Terminal Configuration
+- Terminal > Preferences > Profiles > Keyboard > "Use Option as Meta key" (fzf Option-a select-all)
