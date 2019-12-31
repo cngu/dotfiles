@@ -31,7 +31,7 @@ export PATH=$PATH:/Applications/MacVim.app/Contents/bin
 # ALIASES {{{
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias ls="ls -Gh"
-alias rg="rg --smart-case"
+alias rg="rg --pcre2 --smart-case"
 # Also see: git config --get-regexp alias
 # }}}
 

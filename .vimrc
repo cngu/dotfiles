@@ -26,7 +26,7 @@ nmap <C-p> :Files<CR>
 " empty q-args check to make sure `:Rg` (i.e. without search query) executes `rg ''` (to match every single line)
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case --hidden --glob !.git '.(empty(<q-args>) ? "''" : <q-args>), 1, 
+  \   'rg --pcre2 --column --line-number --no-heading --color=always --smart-case --hidden --glob !.git '.(empty(<q-args>) ? "''" : <q-args>), 1, 
   \   fzf#vim#with_preview({ 
   \     'options': ['--no-sort', '--layout', 'reverse-list', '--bind', 'ctrl-a:select-all,ctrl-d:deselect-all,enter:select-all+accept'] 
   \   }), <bang>0)
