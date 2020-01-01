@@ -70,14 +70,11 @@ endif
 
 Plug 'justinmk/vim-gtfo'
 
-Plug 'tpope/vim-fugitive'
-if s:darwin
-  Plug 'junegunn/vim-xmark'
-endif
-
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-unimpaired'
 Plug 'cngu/vim-vinegar'
 
 Plug 'posva/vim-vue'
@@ -194,7 +191,7 @@ augroup END
 set showcmd
 set ignorecase smartcase
 
-set hidden " Allow switching buffers even if the current one isn't saved.
+" set hidden " Allow switching buffers even if the current one isn't saved.
 
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1
