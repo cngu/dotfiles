@@ -20,9 +20,10 @@ vim-plug: https://github.com/junegunn/vim-plug
 Homebrew: https://brew.sh/
 - git
 - vim
+- ripgrep
+- bat
 - thefuck
 - fasd
-- ripgrep
 
 npm install -g
 - tldr
