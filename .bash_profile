@@ -27,11 +27,11 @@ fi
 # }}}
 
 # ALIASES {{{
-alias ls="ls -Gh"
-alias grep="grep --color=always"
-# alias rg="rg --smart-case"
-alias rg="rg -g '!.git' --hidden"
-alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias todo='vim Documents/GoogleDrive/vimwiki/TODO.md'
+alias ls='ls -Gh'
+alias rg='rg --pcre2 --smart-case --hidden --glob "!.git"'
+# Also see: git config --get-regexp alias
 # }}}
 
 # CUSTOM SCRIPTS {{{

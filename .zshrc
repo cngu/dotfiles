@@ -30,8 +30,9 @@ export PATH=$PATH:/Applications/MacVim.app/Contents/bin
 
 # ALIASES {{{
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias ls="ls -Gh"
-alias rg="rg --pcre2 --smart-case"
+alias todo='vim Documents/GoogleDrive/vimwiki/TODO.md'
+alias ls='ls -Gh'
+alias rg='rg --pcre2 --smart-case --hidden --glob "!.git"'
 # Also see: git config --get-regexp alias
 # }}}
 
