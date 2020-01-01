@@ -82,7 +82,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'othree/html5.vim'
 
 Plug 'Yggdroot/indentLine'
-" let g:indentLine_char = '⎸'
+
 Plug 'elzr/vim-json'
 let g:vim_json_syntax_conceal = 0
 

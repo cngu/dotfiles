@@ -8,7 +8,6 @@ export JAVA_HOME=$(/usr/libexec/java_home)
 export IDEA_JDK=$JAVA_HOME
 
 export PATH=$PATH:/Users/cnguyen/libs/mongodb/bin
-export PATH=$PATH:/Users/cnguyen/libs/gradle-2.14.1/bin
 export PATH=$PATH:/Applications/MacVim.app/Contents/bin
 # }}}
 

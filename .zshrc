@@ -24,7 +24,6 @@ setopt NO_CASE_GLOB
 # }}}
 
 # PATH Environment {{{
-export PATH=$PATH:$HOME/libs/gradle-2.14.1/bin
 export PATH=$PATH:/Applications/MacVim.app/Contents/bin
 # }}}
 
