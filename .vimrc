@@ -202,7 +202,7 @@ augroup END
 set showcmd
 set ignorecase smartcase
 
-" set hidden " Allow switching buffers even if the current one isn't saved.
+set hidden " Allow switching buffers even if the current one isn't saved.
 
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1
