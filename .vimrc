@@ -27,6 +27,8 @@ nnoremap <Leader>f :Files<CR>
 nnoremap <C-p> :Files<CR>
 nnoremap <Leader>bb :Buffers<CR>
 
+" Consider :BClean and :BDI (:bd interactive).  And then use <Leader>b " :Buffers
+
 function! s:format_buffer(b)
   let l:name = bufname(a:b)
   return printf("%s\t%s", a:b, empty(l:name) ? '[No Name]' : fnamemodify(l:name, ":p:~:."))
@@ -48,11 +50,12 @@ endfunction
 nnoremap <silent> <Leader>bd :<C-u>call <SID>wipeout_buffers()<CR>
 
 " empty q-args check to make sure `:Rg` (i.e. without search query) executes `rg ''` (to match every single line)
+" enter:select-all+accept
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --pcre2 --column --line-number --no-heading --color=always --smart-case --hidden --glob !.git '.(empty(<q-args>) ? "''" : <q-args>), 1, 
   \   fzf#vim#with_preview({ 
-  \     'options': ['--no-sort', '--layout', 'reverse-list', '--bind', 'ctrl-a:select-all,ctrl-d:deselect-all,enter:select-all+accept'] 
+  \     'options': ['--no-sort', '--layout', 'reverse-list', '--bind', 'ctrl-a:select-all,ctrl-d:deselect-all'] 
   \   }), <bang>0)
 
 " Plug 'jremmen/vim-ripgrep'
@@ -207,6 +210,9 @@ fun! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 autocmd FileType c,cpp,java,javascript,python,vue autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+
+" Always open quickfix window along entire bottom edge
+autocmd FileType qf wincmd J
 
 " vim-vue & vim-commentary
 " Author's recommendation to fix bug where highlighting stops working randomly
