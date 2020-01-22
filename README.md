@@ -9,7 +9,7 @@ dotfiles checkout
 dotfiles config --local status.showUntrackedFiles no
 ```
 
-zplugin: https://github.com/zdharma/zplugin
+zinit: https://github.com/zdharma/zinit 
 
 Powerlevel10k
 - Fonts: https://github.com/romkatv/powerlevel10k/blob/master/README.md#fonts

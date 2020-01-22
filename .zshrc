@@ -28,7 +28,7 @@ export PATH=$PATH:/Applications/MacVim.app/Contents/bin
 # }}}
 
 # ALIASES {{{
-alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias todo='vim $HOME/Documents/GoogleDrive/vimwiki/TODO.md'
 alias ls='ls -Gh'
 alias rg='rg --pcre2 --smart-case --hidden --glob "!.git"'
@@ -47,23 +47,30 @@ export NVM_DIR="$HOME/.nvm"
 export NVM_LAZY_LOAD=true
 # }}}
 
-# Package Manager (zplugin) {{{
-# Added by Zplugin's installer
-source '/Users/cnguyen/.zplugin/bin/zplugin.zsh'
-autoload -Uz _zplugin
-(( ${+_comps} )) && _comps[zplugin]=_zplugin
-# End of Zplugin installer's chunk
+# Package Manager (zinit) {{{
+### Added by Zinit's installer
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+  print -P "%F{33}▓▒░ %F{220}Installing DHARMA Initiative Plugin Manager (zdharma/zinit)…%f"
+  command mkdir -p $HOME/.zinit
+  command git clone https://github.com/zdharma/zinit $HOME/.zinit/bin && \
+    print -P "%F{33}▓▒░ %F{34}Installation successful.%f" || \
+    print -P "%F{160}▓▒░ The clone has failed.%f"
+fi
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+### End of Zinit installer's chunk
 
-zplugin light lukechilds/zsh-nvm
+zinit light lukechilds/zsh-nvm
 
-zplugin ice from"gh" wait"1" silent pick"zsh-history-substring-search.plugin.zsh" lucid
-zplugin light zsh-users/zsh-history-substring-search
+zinit ice from"gh" wait"1" silent pick"zsh-history-substring-search.plugin.zsh" lucid
+zinit light zsh-users/zsh-history-substring-search
 
-zplugin ice depth=1; zplugin light romkatv/powerlevel10k
+zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 # Causes noticable lag when typing.  
 # Also syntax highlighting should be loaded last.
-# zplugin light zdharma/fast-syntax-highlighting
+# zinit light zdharma/fast-syntax-highlighting
 # }}}
 
 # CUSTOM SCRIPTS {{{
