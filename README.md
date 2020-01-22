@@ -1,4 +1,6 @@
-# atlassian.com/git/tutorials/dotfiles
+
+Setup dotfiles (atlassian.com/git/tutorials/dotfiles)
+
 ```
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 echo ".dotfiles" >> .gitignore
@@ -28,5 +30,17 @@ Homebrew: https://brew.sh/
 npm install -g
 - tldr
 
-MacOS Terminal Configuration
+MacOS Terminal Configuration:
 - Terminal > Preferences > Profiles > Keyboard > "Use Option as Meta key" (fzf Option-a select-all)
+
+git aliases:
+```
+git config --global alias.a add
+git config --global alias.ci commit
+git config --global alias.co checkout
+git config --global alias.d diff
+git config --global alias.ds "diff --staged"
+git config --global alias.r restore
+git config --global alias.rs "restore --staged"
+git config --global alias.s status
+```
