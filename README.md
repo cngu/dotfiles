@@ -21,6 +21,7 @@ vim-plug: https://github.com/junegunn/vim-plug
 
 Homebrew: https://brew.sh/
 - git
+- git-lfs
 - vim
 - ripgrep
 - bat
@@ -32,15 +33,3 @@ npm install -g
 
 MacOS Terminal Configuration:
 - Terminal > Preferences > Profiles > Keyboard > "Use Option as Meta key" (fzf Option-a select-all)
-
-git aliases:
-```
-git config --global alias.a add
-git config --global alias.ci commit
-git config --global alias.co checkout
-git config --global alias.d diff
-git config --global alias.ds "diff --staged"
-git config --global alias.r restore
-git config --global alias.rs "restore --staged"
-git config --global alias.s status
-```

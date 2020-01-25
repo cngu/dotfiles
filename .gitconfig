@@ -1,0 +1,18 @@
+[alias]
+  a = add
+	ci = commit
+  co = checkout
+	d = diff
+	ds = diff --staged
+	r = restore
+	rs = restore --staged
+	st = status
+  sw = switch
+[user]
+	name = cngu
+	email = cngu@users.noreply.github.com
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
