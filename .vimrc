@@ -56,7 +56,7 @@ command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --pcre2 --column --line-number --no-heading --color=always --smart-case --hidden --glob !.git '.(empty(<q-args>) ? "''" : <q-args>), 1, 
   \   fzf#vim#with_preview({ 
-  \     'options': ['--no-sort', '--layout', 'reverse-list', '--bind', 'ctrl-a:select-all,ctrl-d:deselect-all'] 
+  \     'options': ['--no-sort', '--bind', 'ctrl-a:select-all,ctrl-d:deselect-all'] 
   \   }), <bang>0)
 
 " Plug 'jremmen/vim-ripgrep'
