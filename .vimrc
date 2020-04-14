@@ -18,6 +18,7 @@ let maplocalleader = ' '
 " VIM-PLUG {{{
 " ============================================================================
 call plug#begin('~/.vim/plugged')
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Todo', 'border': 'rounded' } }
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
