@@ -126,7 +126,8 @@ function LightlineFileencoding()
 endfunction
 
 Plug 'vimwiki/vimwiki'
-set nocompatible
+" Disabling because it causes auto line breaking https://vi.stackexchange.com/a/16987
+" set nocompatible
 filetype plugin indent on
 au BufNewFile,BufRead *.vue			setf vue
 let g:vimwiki_list = [{'path': '~/Google Drive/vimwiki/',
