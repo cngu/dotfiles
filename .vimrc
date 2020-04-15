@@ -58,6 +58,9 @@ command! -bang -nargs=* Rg
   \   fzf#vim#with_preview({ 
   \     'options': ['--no-sort', '--bind', 'ctrl-a:select-all,ctrl-d:deselect-all'] 
   \   }), <bang>0)
+nnoremap <Leader>s :Rg<Space>
+nnoremap <Leader>* :Rg -w <C-R><C-W><CR>
+nnoremap <Leader>g* :Rg <C-R><C-W><CR>
 
 " Plug 'jremmen/vim-ripgrep'
 " let g:rg_highlight = 1
