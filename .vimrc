@@ -233,14 +233,18 @@ autocmd FileType vue syntax sync fromstart
 autocmd FileType vue setlocal commentstring=\/\/\ %s
 let g:vue_pre_processors = []
 
-" Sync cursor color to (vim-one, not bubblegum) Airline color
-highlight Cursor guibg=#99C27C
-" hi Visual guifg=#000000 guibg=#C57BDB
-autocmd InsertEnter * highlight  Cursor guibg=#65B0ED
-autocmd InsertEnter * highlight  CursorLine guibg=#2F3244
-autocmd InsertLeave * highlight  Cursor guibg=#99C27C 
-autocmd InsertLeave * highlight  CursorLine guibg=#2C323C
-
+if has('gui_running')
+  " Sync cursor color to (vim-one, not bubblegum) Airline color
+  highlight Cursor guibg=#99C27C
+  " hi Visual guifg=#000000 guibg=#C57BDB
+  autocmd InsertEnter * highlight  Cursor guibg=#65B0ED
+  autocmd InsertEnter * highlight  CursorLine guibg=#2F3244
+  autocmd InsertLeave * highlight  Cursor guibg=#99C27C 
+  autocmd InsertLeave * highlight  CursorLine guibg=#2C323C
+else
+  let &t_SI = "\e[5 q" " SI=INSERT mode, 5=blinking bar
+  let &t_EI = "\e[1 q" " EI=ELSE catch-all mode, 1=solid block
+endif
 " }}}}}}
 " ============================================================================
 " FUNCTIONS {{{
