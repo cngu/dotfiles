@@ -2,194 +2,211 @@
 " Also see $VIMRUNTIME/vimrc_example.vim and $VIMRUNTIME/defaults.vim.
 "
 " ============================================================================
-" VIM 8 DEFAULTS {{{
+" Vim 8 Defaults {{{
 " ============================================================================
-let s:darwin = has('mac')
+unlet! skip_defaults_vim
+silent! source $VIMRUNTIME/defaults.vim
 
-" netrw
-let g:netrw_banner = 0
-let g:netrw_liststyle = 0
-let g:netrw_winsize = 25
+augroup vimrc
+  autocmd!
+augroup END
+
+" let s:darwin = has('mac')
+" let s:windows = has('win32') || has('win64')
 
 let mapleader = ' '
 let maplocalleader = ' '
+
+" Put all swap and undo files in /tmp. Cleaner, but riskier.
+set backupdir=/tmp//,.
+set directory=/tmp//,.
+if has('persistent_undo')
+  set undodir=/tmp,.
+  set undofile
+endif
 " }}}
 " ============================================================================
-" VIM-PLUG {{{
+" Plugins {{{
 " ============================================================================
 call plug#begin('~/.vim/plugged')
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Todo', 'border': 'rounded' } }
+Plug 'justinmk/vim-gtfo'
+Plug 'tpope/vim-commentary'
+  autocmd FileType vue setlocal commentstring=\/\/\ %s
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'Yggdroot/indentLine'
+
+Plug 'rakr/vim-one'
+
+Plug 'othree/html5.vim'
+Plug 'pangloss/vim-javascript'
+  let g:javascript_plugin_jsdoc = 1
+Plug 'posva/vim-vue'
+  " Author's recommendation to fix bug where highlighting stops working randomly
+  let g:vue_pre_processors = []
+Plug 'elzr/vim-json'
+  let g:vim_json_syntax_conceal = 0
+
+Plug 'cngu/vim-vinegar'
+  let g:netrw_banner = 0
+  let g:netrw_liststyle = 0
+  let g:netrw_winsize = 25
+
+Plug 'junegunn/vim-slash'
+  set shortmess-=S
+  set shortmess+=s
+  if has('timers')
+    " Blink 2 times with 50ms interval
+    noremap <expr> <plug>(slash-after) slash#blink(2, 50)
+  endif
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-command! -bang -nargs=? -complete=dir Files
-  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-nnoremap <Leader>f :Files<CR>
-nnoremap <C-p> :Files<CR>
-nnoremap <Leader>bb :Buffers<CR>
-
-" Consider :BClean and :BDI (:bd interactive).  And then use <Leader>b " :Buffers
-
-function! s:format_buffer(b)
-  let l:name = bufname(a:b)
-  return printf("%s\t%s", a:b, empty(l:name) ? '[No Name]' : fnamemodify(l:name, ":p:~:."))
-endfunction
-
-function! s:wipeout_buffers()
-  return fzf#run(fzf#wrap({
-    \ 'source':  map(
-    \   filter(
-    \     range(1, bufnr('$')),
-    \     {_, nr -> buflisted(nr) && getbufvar(nr, "&filetype") != "qf" && !getbufvar(nr, "&modified")}
-    \   ),
-    \   {_, nr -> s:format_buffer(nr)}
-    \ ),
-    \ 'sink*': {lines -> execute('bwipeout '.join(map(lines, {_, line -> split(line)[0]})), '')},
-    \ 'options': ['-m', '--tiebreak=index', '--ansi', '-d', '\t', '--prompt', 'Wipeout> ']
-  \}))
-endfunction
-nnoremap <silent> <Leader>bd :<C-u>call <SID>wipeout_buffers()<CR>
+  command! -bang -nargs=? -complete=dir Files
+        \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+  nnoremap <Leader>f :Files<CR>
+  nnoremap <C-p> :Files<CR>
+  " Disable floating popup window due to issue where lightline disappears after
+  " opening the fzf popup window. It only re-appears after switching buffers.
+  " Try updating plugins to see if it is fixed.  If so, uncomment.
+  " let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Todo', 'border': 'rounded' } }
 
 " empty q-args check to make sure `:Rg` (i.e. without search query) executes `rg ''` (to match every single line)
 " enter:select-all+accept
 command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --pcre2 --column --line-number --no-heading --color=always --smart-case --hidden --glob !.git '.(empty(<q-args>) ? "''" : <q-args>), 1, 
-  \   fzf#vim#with_preview({ 
-  \     'options': ['--no-sort', '--bind', 'ctrl-a:select-all,ctrl-d:deselect-all'] 
-  \   }), <bang>0)
+      \ call fzf#vim#grep(
+      \   'rg --pcre2 --column --line-number --no-heading --color=always --smart-case --hidden --glob !.git '.(empty(<q-args>) ? "''" : <q-args>), 1, 
+      \   fzf#vim#with_preview({ 
+      \     'options': ['--no-sort', '--bind', 'ctrl-a:select-all,ctrl-d:deselect-all'] 
+      \   }), <bang>0)
 nnoremap <Leader>s :Rg<Space>
 nnoremap <Leader>* :Rg -w <C-R><C-W><CR>
 nnoremap <Leader>g* :Rg <C-R><C-W><CR>
 
-" Plug 'jremmen/vim-ripgrep'
-" let g:rg_highlight = 1
-" let g:rg_format = '%f:%l:%c:%m'
-" let g:rg_binary = 'rg'
-" let g:rg_command = g:rg_binary . ' -g ' . '!.git' . ' --hidden --vimgrep'
+Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
+  function! s:wipeout_inactive_buffers()
+      "From tabpagebuflist() help, get a list of all buffers in all tabs
+      let tablist = []
+      for i in range(tabpagenr('$'))
+          call extend(tablist, tabpagebuflist(i + 1))
+      endfor
 
-Plug 'junegunn/vim-slash'
-" noremap <plug>(slash-after) zz
-if has('timers')
-  " Blink 2 times with 50ms interval
-  noremap <expr> <plug>(slash-after) slash#blink(2, 50)
-endif
-
-Plug 'justinmk/vim-gtfo'
-
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-unimpaired'
-Plug 'cngu/vim-vinegar'
-
-Plug 'posva/vim-vue'
-Plug 'pangloss/vim-javascript'
-Plug 'othree/html5.vim'
-
-Plug 'Yggdroot/indentLine'
-
-Plug 'elzr/vim-json'
-let g:vim_json_syntax_conceal = 0
-
-Plug 'rakr/vim-one'
+      "Below originally inspired by Hara Krishna Dara and Keith Roberts
+      "http://tech.groups.yahoo.com/group/vim/message/56425
+      let nWipeouts = 0
+      for i in range(1, bufnr('$'))
+          if bufexists(i) && !getbufvar(i,"&mod") && index(tablist, i) == -1
+          "bufno exists AND isn't modified AND isn't in the list of buffers open in windows and tabs
+              silent exec 'bwipeout' i
+              let nWipeouts = nWipeouts + 1
+          endif
+      endfor
+      echomsg nWipeouts . ' buffer(s) wiped out'
+  endfunction
+  function! s:format_buffer(b)
+    let l:name = bufname(a:b)
+    return printf("%s\t%s", a:b, empty(l:name) ? '[No Name]' : fnamemodify(l:name, ":p:~:."))
+  endfunction
+  function! s:wipeout_selected_buffers()
+    return fzf#run(fzf#wrap({
+          \ 'source':  map(
+          \   filter(
+          \     range(1, bufnr('$')),
+          \     {_, nr -> buflisted(nr) && getbufvar(nr, "&filetype") != "qf" && !getbufvar(nr, "&modified")}
+          \   ),
+          \   {_, nr -> s:format_buffer(nr)}
+          \ ),
+          \ 'sink*': {lines -> execute('bwipeout '.join(map(lines, {_, line -> split(line)[0]})), '')},
+          \ 'options': ['-m', '--tiebreak=index', '--ansi', '-d', '\t', '--prompt', 'Wipeout> ']
+          \}))
+  endfunction
+  nnoremap <silent> <Leader>bw :<C-u>call <SID>wipeout_selected_buffers()<CR>
+  nnoremap <silent> <Leader>bc :call <SID>wipeout_inactive_buffers()<CR>
+  nnoremap <Leader>bb :Buffers<CR>
+  nnoremap <Leader>bd :Sayonara!<CR>
 
 Plug 'itchyny/lightline.vim'
-let g:lightline = { 
-  \ 'colorscheme': 'one',
-  \ 'active': {
-  \   'left': [ 
-  \     [ 'mode', 'paste' ],
-  \     [ 'readonly', 'relativepath', 'modified' ] 
-  \   ],
-  \   'right': [ 
-  \     [ 'lineinfo' ],
-  \     [ 'gitbranch', 'fileencoding' ] 
-  \   ]
-  \ },
-  \ 'inactive': {
-  \   'left': [
-  \     [ 'relativepath', 'modified' ] 
-  \   ],
-  \   'right': [ 
-  \     [ 'lineinfo' ]
-  \   ]
-  \ },
-  \ 'component_function': {
-  \   'gitbranch': 'LightlineGitBranch',
-  \   'fileencoding': 'LightlineFileencoding'
+  set laststatus=2
+  set noshowmode
+  let g:lightline = { 
+    \ 'colorscheme': 'one',
+    \ 'active': {
+    \   'left': [ 
+    \     [ 'mode', 'paste' ],
+    \     [ 'readonly', 'relativepath', 'modified' ] 
+    \   ],
+    \   'right': [ 
+    \     [ 'lineinfo' ],
+    \     [ 'gitbranch', 'fileencoding' ] 
+    \   ]
+    \ },
+    \ 'inactive': {
+    \   'left': [
+    \     [ 'relativepath', 'modified' ] 
+    \   ],
+    \   'right': [ 
+    \     [ 'lineinfo' ]
+    \   ]
+    \ },
+    \ 'component_function': {
+    \   'gitbranch': 'LightlineGitBranch',
+    \   'fileencoding': 'LightlineFileencoding'
+    \ }
   \ }
-\ }
-function LightlineGitBranch()
-  return winwidth(0) >= 124 ? fugitive#head() : ''
-endfunction
-"fugitive#head
-function LightlineFileencoding()
-  return winwidth(0) >= 124 ? &fileencoding : ''
-endfunction
+  function LightlineGitBranch()
+    return winwidth(0) >= 124 ? fugitive#head() : ''
+  endfunction
+  function LightlineFileencoding()
+    return winwidth(0) >= 124 ? &fileencoding : ''
+  endfunction
 
 Plug 'vimwiki/vimwiki'
-" Disabling because it causes auto line breaking https://vi.stackexchange.com/a/16987
-" set nocompatible
-filetype plugin indent on
-au BufNewFile,BufRead *.vue			setf vue
-let g:vimwiki_list = [{'path': '~/Google Drive/vimwiki/',
-                      \ 'syntax': 'markdown', 'ext': '.md'}]
-
+  set nocompatible
+  filetype plugin on
+  au BufNewFile,BufRead *.vue			setf vue
+  let g:vimwiki_list = [{'path': '~/Google Drive/vimwiki/',
+                        \ 'syntax': 'markdown', 'ext': '.md'}]
 call plug#end()
+" }}}
+" ============================================================================
+" Base Settings {{{
+" ============================================================================
+set encoding=utf-8
+set lazyredraw
+set backspace=indent,eol,start
+set clipboard=unnamed
+set showcmd
+set hidden " Allow switching buffers even if the current one isn't saved.
 
 syntax enable
 set background=dark
 colorscheme one
-if has('gui_running')
-else
+if !has('gui_running')
   "Change ctermbg black (16) background to #303030
   call one#highlight('Normal', '', '303030', 'none')
 endif
-" }}}
-" ============================================================================
-" BASIC SETTINGS {{{
-" ============================================================================
-set dir=$HOME/.vim/tmp/swap " Separate directory for swap files
-if !isdirectory(&dir) | call mkdir(&dir, 'p', 0700) | endif
+set guifont=MesloLGS\ NF:h12
+set hlsearch
+set incsearch " Highlight search match as I type, but won't keep them highlighted
 
-set shortmess-=S
-set laststatus=2
-set noshowmode
-
-" set guifont=Consolas:h12
-set encoding=utf-8
-set number relativenumber " line number
-set ruler " column number
+set number relativenumber
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
+set ruler " line and column number at cursor
 set colorcolumn=120
-
-set backspace=indent,eol,start
-set clipboard=unnamed
-
 set tabstop=2
 set shiftwidth=2
 set expandtab smarttab
+set ignorecase smartcase
 
 set foldmethod=marker 
 set nofoldenable
 set nomodeline
-
-set incsearch " Highlight search match as I type, but won't keep them highlighted
-set hlsearch
-
-hi QuickFixLine guibg=Black
-" hi Search guibg=LightYellow guifg=Red
-
-" set visualbell
-
-" Move lines up and down with <A-k> and <A-j>
-" nnoremap ∆ :m .+1<CR>==
-" nnoremap ˚ :m .-2<CR>==
-" inoremap ∆ <Esc>:m .+1<CR>==gi
-" inoremap ˚ <Esc>:m .-2<CR>==gi
-" vnoremap ∆ :m '>+1<CR>gv=gv
-" vnoremap ˚ :m '<-2<CR>gv=gv
 
 nnoremap p p=`]
 vnoremap p "_dP`[v`]=
@@ -197,42 +214,27 @@ vnoremap p "_dP`[v`]=
 nnoremap x "_x
 vnoremap x "_x
 
-augroup numbertoggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-augroup END
-
-" Show command as it's being typed
-set showcmd
-set ignorecase smartcase
-
-set hidden " Allow switching buffers even if the current one isn't saved.
-
-" vim-javascript
-let g:javascript_plugin_jsdoc = 1
-
-" grep
-set grepprg=rg\ -F\ -S\ --no-heading\ --vimgrep
-
 " Strip trailing whitespace on save
 fun! <SID>StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
+  let l = line(".")
+  let c = col(".")
+  %s/\s\+$//e
+  call cursor(l, c)
 endfun
 autocmd FileType c,cpp,java,javascript,python,vue autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
-
+" }}}
+" ============================================================================
+" Quickfix {{{
+" ============================================================================
 " Always open quickfix window along entire bottom edge
 autocmd FileType qf wincmd J
 
-" vim-vue & vim-commentary
-" Author's recommendation to fix bug where highlighting stops working randomly
-autocmd FileType vue syntax sync fromstart
-autocmd FileType vue setlocal commentstring=\/\/\ %s
-let g:vue_pre_processors = []
-
+hi QuickFixLine guibg=Black
+" }}}
+" ============================================================================
+" Cursor {{{
+" ============================================================================
+" Customize cursor shape and color
 if has('gui_running')
   " Sync cursor color to (vim-one, not bubblegum) Airline color
   highlight Cursor guibg=#99C27C
@@ -245,31 +247,10 @@ else
   let &t_SI = "\e[5 q" " SI=INSERT mode, 5=blinking bar
   let &t_EI = "\e[1 q" " EI=ELSE catch-all mode, 1=solid block
 endif
-" }}}}}}
+" }}}
 " ============================================================================
-" FUNCTIONS {{{
+" Pretty Print {{{
 " ============================================================================
-function! s:BufferDeleteInactive()
-    "From tabpagebuflist() help, get a list of all buffers in all tabs
-    let tablist = []
-    for i in range(tabpagenr('$'))
-        call extend(tablist, tabpagebuflist(i + 1))
-    endfor
-
-    "Below originally inspired by Hara Krishna Dara and Keith Roberts
-    "http://tech.groups.yahoo.com/group/vim/message/56425
-    let nWipeouts = 0
-    for i in range(1, bufnr('$'))
-        if bufexists(i) && !getbufvar(i,"&mod") && index(tablist, i) == -1
-        "bufno exists AND isn't modified AND isn't in the list of buffers open in windows and tabs
-            silent exec 'bwipeout' i
-            let nWipeouts = nWipeouts + 1
-        endif
-    endfor
-    echomsg nWipeouts . ' buffer(s) wiped out'
-endfunction
-nnoremap <silent> <Leader>bc :call <SID>BufferDeleteInactive()<CR>
-
 command! PrettyJSON execute "%!python -m json.tool"
 
 function! DoFormatXML() range
