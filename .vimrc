@@ -163,9 +163,9 @@ Plug 'itchyny/lightline.vim'
   endfunction
 
 Plug 'vimwiki/vimwiki'
-  set nocompatible
+  " Not sure why vimwiki needs this.  Disable for now because it messes with shortmess (and more).
+  " set nocompatible
   filetype plugin on
-  au BufNewFile,BufRead *.vue			setf vue
   let g:vimwiki_list = [{'path': '~/Google Drive/vimwiki/',
                         \ 'syntax': 'markdown', 'ext': '.md'}]
 call plug#end()
@@ -174,7 +174,6 @@ call plug#end()
 " Base Settings {{{
 " ============================================================================
 set encoding=utf-8
-set lazyredraw
 set backspace=indent,eol,start
 set clipboard=unnamed
 set showcmd
