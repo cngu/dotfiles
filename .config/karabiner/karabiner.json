@@ -144,6 +144,40 @@
                                 "type": "basic"
                             }
                         ]
+                    },
+                    {
+                        "description": "Disable Command Up",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "up_arrow",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "command"
+                                        ]
+                                    }
+                                },
+                                "to": [],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                      "description": "Disable Command Down",
+                      "manipulators": [
+                        {
+                          "from": {
+                            "key_code": "down_arrow",
+                            "modifiers": {
+                              "mandatory": [
+                                "command"
+                              ]
+                            }
+                          },
+                          "to": [],
+                          "type": "basic"
+                        }
+                      ]
                     }
                 ]
             },
@@ -316,7 +350,16 @@
                 "delay_milliseconds_before_open_device": 1000
             },
             "selected": true,
-            "simple_modifications": [],
+            "simple_modifications": [
+                {
+                    "from": {
+                        "key_code": "right_shift"
+                    },
+                    "to": {
+                        "key_code": "left_shift"
+                    }
+                }
+            ],
             "virtual_hid_keyboard": {
                 "country_code": 0,
                 "mouse_key_xy_scale": 100
