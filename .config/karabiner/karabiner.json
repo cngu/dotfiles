@@ -163,21 +163,77 @@
                         ]
                     },
                     {
-                      "description": "Disable Command Down",
-                      "manipulators": [
-                        {
-                          "from": {
-                            "key_code": "down_arrow",
-                            "modifiers": {
-                              "mandatory": [
-                                "command"
-                              ]
+                        "description": "Disable Command Down",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "down_arrow",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "command"
+                                        ]
+                                    }
+                                },
+                                "to": [],
+                                "type": "basic"
                             }
-                          },
-                          "to": [],
-                          "type": "basic"
-                        }
-                      ]
+                        ]
+                    },
+                    {
+                      "description": "(Finder|Firefox) MouseButton4 to Command+[",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "org\\.mozilla\\.firefox",
+                                            "com.apple.finder"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "pointing_button": "button4"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "open_bracket",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                      "description": "(Finder|Firefox) MouseButton5 to Command+]",
+                        "manipulators": [
+                          {
+                            "conditions": [
+                              {
+                                "bundle_identifiers": [
+                                  "org\\.mozilla\\.firefox",
+                                  "com.apple.finder"
+                                ],
+                                "type": "frontmost_application_if"
+                              }
+                            ],
+                            "from": {
+                              "pointing_button": "button5"
+                            },
+                            "to": [
+                              {
+                                "key_code": "close_bracket",
+                                "modifiers": [
+                                  "left_command"
+                                ]
+                              }
+                            ],
+                            "type": "basic"
+                          }
+                        ]
                     }
                 ]
             },
@@ -245,6 +301,32 @@
                             }
                         }
                     ]
+                },
+                {
+                    "disable_built_in_keyboard_if_exists": false,
+                    "fn_function_keys": [],
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "is_pointing_device": false,
+                        "product_id": 50489,
+                        "vendor_id": 1133
+                    },
+                    "ignore": false,
+                    "manipulate_caps_lock_led": false,
+                    "simple_modifications": []
+                },
+                {
+                    "disable_built_in_keyboard_if_exists": false,
+                    "fn_function_keys": [],
+                    "identifiers": {
+                        "is_keyboard": false,
+                        "is_pointing_device": true,
+                        "product_id": 50489,
+                        "vendor_id": 1133
+                    },
+                    "ignore": false,
+                    "manipulate_caps_lock_led": false,
+                    "simple_modifications": []
                 }
             ],
             "fn_function_keys": [
