@@ -25,6 +25,7 @@ setopt NO_CASE_GLOB
 
 # PATH Environment {{{
 export PATH=$PATH:/Applications/MacVim.app/Contents/bin
+export VISUAL=nvim
 # }}}
 
 # ALIASES {{{
