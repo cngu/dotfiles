@@ -11,6 +11,16 @@ dotfiles config --local status.showUntrackedFiles no
 
 zinit: https://github.com/zdharma/zinit 
 
+Homebrew: https://brew.sh/
+- git
+- git-lfs
+- nvim
+- ripgrep
+- bat
+- thefuck
+- fasd
+- powerlevel10k (currently zinit, but homebrew next time)
+
 Powerlevel10k
 - Fonts: https://github.com/romkatv/powerlevel10k/blob/master/README.md#fonts
 - `p10k configure`
@@ -19,17 +29,12 @@ Powerlevel10k
 vim-plug: https://github.com/junegunn/vim-plug
 - `:PlugInstall`
 
-Homebrew: https://brew.sh/
-- git
-- git-lfs
-- vim
-- ripgrep
-- bat
-- thefuck
-- fasd
-
-npm install -g
-- tldr
-
 MacOS Terminal Configuration:
 - Terminal > Preferences > Profiles > Keyboard > "Use Option as Meta key" (fzf Option-a select-all)
+- defaults write -g ApplePressAndHoldEnabled -bool false
+
+Mac Apps
+- Karabiner Elements
+- Clipy
+- Dropbox
+- Rectangle
