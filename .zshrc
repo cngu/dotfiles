@@ -30,7 +30,7 @@ export VISUAL=nvim
 
 # ALIASES {{{
 alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias todo='vim $HOME/Documents/GoogleDrive/vimwiki/TODO.md'
+alias todo='vim $HOME/Documents/Dropbox/vimwiki/TODO.md'
 alias ls='ls -Gh'
 alias rg='rg --pcre2 --smart-case --hidden --glob "!.git"'
 # Also see: git config --get-regexp alias
