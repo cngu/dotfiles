@@ -22,7 +22,7 @@ Homebrew: https://brew.sh/
 - bat
 - thefuck
 - fasd
-- powerlevel10k (currently zinit, but homebrew next time)
+- powerlevel10k
   - Fonts: https://github.com/romkatv/powerlevel10k/blob/master/README.md#fonts
   - `p10k configure`
   - Stick prompt to bottom: https://www.reddit.com/r/zsh/comments/dsh1g3/new_powerlevel10k_feature_transient_prompt/f6rmpgc/

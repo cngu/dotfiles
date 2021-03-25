@@ -67,8 +67,6 @@ zinit light lukechilds/zsh-nvm
 zinit ice from"gh" wait"1" silent pick"zsh-history-substring-search.plugin.zsh" lucid
 zinit light zsh-users/zsh-history-substring-search
 
-zinit ice depth=1; zinit light romkatv/powerlevel10k
-
 # Causes noticable lag when typing.  
 # Also syntax highlighting should be loaded last.
 # zinit light zdharma/fast-syntax-highlighting
@@ -77,8 +75,10 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 # CUSTOM SCRIPTS {{{
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Powerlevel10k: To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
+# Powerlevel10k auto-generated: 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 for script ($HOME/scripts/shell/(zsh|sh)/*.(zsh|sh)) source $script
 # }}}
@@ -149,3 +149,4 @@ fi
 if [ $PERF = true ]; then
   zprof
 fi
+
