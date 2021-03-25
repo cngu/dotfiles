@@ -146,7 +146,9 @@ if type complete &>/dev/null; then
 fi
 ###-end-npm-completion-###
 
+# iTerm2: Shell Integration
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
+
 if [ $PERF = true ]; then
   zprof
 fi
-
