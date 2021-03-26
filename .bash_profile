@@ -34,13 +34,10 @@ alias rg='rg --pcre2 --smart-case --hidden --glob "!.git"'
 # }}}
 
 # CUSTOM SCRIPTS {{{
-for script in $HOME/scripts/shell/sh/*.sh; do
+for script in $HOME/scripts/autoexec/(sh|bash)/*.sh; do
   source $script
 done
 # }}}
-
-# Must be after scripts above for exit status to work
-source ~/scripts/shell/bash/bash-powerline/bash-powerline.sh
 
 source /usr/local/etc/bash_completion.d/git-completion.bash
 

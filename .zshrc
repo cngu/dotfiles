@@ -80,7 +80,7 @@ source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-for script ($HOME/scripts/shell/(zsh|sh)/*.(zsh|sh)) source $script
+for script ($HOME/scripts/autoexec/(zsh|sh)/*.(zsh|sh)) source $script
 # }}}
 
 # TODO: Find a cleaner way to include npm completion.  Right now it's `npm completion >> ~/.zshrc`.

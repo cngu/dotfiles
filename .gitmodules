@@ -1,3 +1,0 @@
-[submodule "scripts/shell/bash/bash-powerline"]
-	path = scripts/shell/bash/bash-powerline
-	url = https://github.com/cngu/bash-powerline
