@@ -1,4 +1,4 @@
-**Setup dotfiles**
+## *Setup dotfiles*
 
 https://www.atlassian.com/git/tutorials/dotfiles
 
@@ -10,12 +10,17 @@ dotfiles checkout
 dotfiles config --local status.showUntrackedFiles no
 ```
 
-**Tooling**
+## *Tooling*
 
-init: https://github.com/zdharma/zinit 
+**zsh**
+- zinit
 
-Homebrew: https://brew.sh/
+**Homebrew**
 - git
+  ```
+  cd /usr/local/bin
+  ln -s ~/scripts/custom-git-commands/git-*
+  ```
 - git-lfs
 - nvim
 - ripgrep
@@ -27,15 +32,19 @@ Homebrew: https://brew.sh/
   - `p10k configure`
   - Stick prompt to bottom: https://www.reddit.com/r/zsh/comments/dsh1g3/new_powerlevel10k_feature_transient_prompt/f6rmpgc/
 
-vim-plug: https://github.com/junegunn/vim-plug
-- `:PlugInstall`
+**Vim**
+- vim-plug: https://github.com/junegunn/vim-plug
+  - Install to `~/.config/nvim/autoload/plug.vim
 
-**macOS Terminal Configuration**
-- Terminal > Preferences > Profiles > Keyboard > "Use Option as Meta key" (fzf Option-a select-all)
-- defaults write -g ApplePressAndHoldEnabled -bool false
+## macOS setup
 
-**macOS Apps**
+**Apps**
 - Karabiner Elements
 - Clipy
 - Dropbox
 - Rectangle
+
+**Terminal.app**
+- Terminal > Preferences > Profiles > Keyboard > "Use Option as Meta key" (fzf Option-a select-all)
+- defaults write -g ApplePressAndHoldEnabled -bool false
+
