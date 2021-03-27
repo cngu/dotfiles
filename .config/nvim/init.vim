@@ -107,6 +107,12 @@ cnoremap <M-BS> <C-w>
 " ============================================================================
 call plug#begin(stdpath('data') . '/plugged')
 
+Plug 'junegunn/vim-slash'
+if has('timers')
+  " Blink 2 times with 50ms interval
+  noremap <expr> <plug>(slash-after) slash#blink(2, 50)
+endif
+
 call plug#end()
 " }}}
 " ============================================================================
