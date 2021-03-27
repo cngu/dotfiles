@@ -8,6 +8,9 @@ augroup END
 let mapleader = ' '
 let maplocalleader = ' '
 
+" Persistent undo history between Neovim sessions.
+set undofile
+
 " Use system clipboard for all operations.
 set clipboard+=unnamedplus
 
