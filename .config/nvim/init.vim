@@ -1,3 +1,6 @@
+" ============================================================================
+" Base Settings {{{
+" ============================================================================
 " If $MYVIMRC gets sourced twice, autocommands will be duplicated.
 " Create a common 'vimrc' group to register autocmd under, and clear it here.
 " Groups with different names must be cleared too.
@@ -17,6 +20,9 @@ set clipboard+=unnamedplus
 " Enable mouse support.
 set mouse=a
 
+" Establish {{{ and }}} fold markers. Mainly used for this file.
+set foldmethod=marker
+
 " Neovim enables autoread by default, which automatically updates the buffer
 " if the file was modified externally on disk, by listening to various events
 " like buffer focus. (It also prompts for reload if the buffer is modified.) 
@@ -26,7 +32,14 @@ set mouse=a
 augroup vimrc
   autocmd VimResume * silent! checktime
 augroup end
+" }}}
+" ============================================================================
 
+" ============================================================================
+" Plugins {{{
+" ============================================================================
 call plug#begin(stdpath('data') . '/plugged')
 
 call plug#end()
+" }}}
+" ============================================================================
