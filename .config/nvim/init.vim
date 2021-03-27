@@ -2,14 +2,18 @@
 " Base Settings {{{
 " ============================================================================
 " If $MYVIMRC gets sourced twice, autocommands will be duplicated.
-" Create a common 'vimrc' group to register autocmd under, and clear it here.
-" Groups with different names must be cleared too.
+" Register autocommands under this common group for ease of clearing.
+" Global autocommands and other groups must be cleared separately.
+" https://vi.stackexchange.com/questions/15483/clear-all-autocommands
 augroup vimrc
   autocmd!
 augroup END
 
 let mapleader = ' '
 let maplocalleader = ' '
+
+" Establish {{{ and }}} fold markers. Mainly used for this file.
+set foldmethod=marker
 
 " Persistent undo history between Neovim sessions.
 set undofile
@@ -20,8 +24,11 @@ set clipboard+=unnamedplus
 " Enable mouse support.
 set mouse=a
 
-" Establish {{{ and }}} fold markers. Mainly used for this file.
-set foldmethod=marker
+set number relativenumber
+augroup vimrc
+  autocmd InsertEnter * :set norelativenumber
+  autocmd InsertLeave * :set relativenumber 
+augroup END
 
 " Neovim enables autoread by default, which automatically updates the buffer
 " if the file was modified externally on disk, by listening to various events
@@ -41,5 +48,5 @@ augroup end
 call plug#begin(stdpath('data') . '/plugged')
 
 call plug#end()
-" }}}
+" }}} 
 " ============================================================================
