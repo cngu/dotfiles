@@ -29,6 +29,7 @@ dotfiles config --local status.showUntrackedFiles no
 - nvim
 - ripgrep
 - jq
+- tidy-html5
 - bat
 - thefuck
 - fasd

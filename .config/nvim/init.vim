@@ -115,5 +115,7 @@ call plug#end()
 " Utilities {{{
 " ============================================================================
 command PrettyJSON execute "%!jq ."
+command PrettyHTML execute "%!tidy -iq --show-warnings no --tidy-mark no --preserve-entities yes --coerce-endtags no -wrap 0"
+command PrettyXML execute "%!tidy -xml -iq --show-warnings no --preserve-entities yes -wrap"
 " }}}
 " ============================================================================
