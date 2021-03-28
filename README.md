@@ -12,6 +12,10 @@ dotfiles config --local status.showUntrackedFiles no
 
 ## *Tooling*
 
+**Fonts**
+Nerd Fonts: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts
+- Hack
+
 **zsh**
 - zinit
 
@@ -23,7 +27,6 @@ dotfiles config --local status.showUntrackedFiles no
   ```
 - git-lfs
 - powerlevel10k
-  - Fonts: https://github.com/romkatv/powerlevel10k/blob/master/README.md#fonts
   - `p10k configure`
   - Stick prompt to bottom: https://www.reddit.com/r/zsh/comments/dsh1g3/new_powerlevel10k_feature_transient_prompt/f6rmpgc/
 - nvim
