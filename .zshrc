@@ -19,8 +19,10 @@ fi
 bindkey -e
 
 setopt EXTENDED_HISTORY
-setopt NO_CASE_GLOB
-#setopt CORRECT
+setopt HIST_IGNORE_DUPS
+setopt HIST_EXPIRE_DUPS_FIRST
+#setopt NO_CASE_GLOB
+setopt CORRECT
 # }}}
 
 # PATH Environment {{{
@@ -29,10 +31,15 @@ export VISUAL=nvim
 # }}}
 
 # ALIASES {{{
+alias ls='ls -GFh'
+alias mv='mv -i'
+alias rm='rm -i'
+alias cp='cp -i'
+alias g='git'
 alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias todo='vim $HOME/Documents/Dropbox/vimwiki/TODO.md'
-alias ls='ls -Gh'
 alias rg='rg --pcre2 --smart-case --hidden --glob "!.git"'
+alias grep='grep --color=auto'
 # Also see: git config --get-regexp alias
 # }}}
 
@@ -67,7 +74,7 @@ zinit light lukechilds/zsh-nvm
 zinit ice from"gh" wait"1" silent pick"zsh-history-substring-search.plugin.zsh" lucid
 zinit light zsh-users/zsh-history-substring-search
 
-# Causes noticable lag when typing.  
+# Causes noticable lag when typing.
 # Also syntax highlighting should be loaded last.
 # zinit light zdharma/fast-syntax-highlighting
 # }}}
@@ -76,7 +83,7 @@ zinit light zsh-users/zsh-history-substring-search
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
-# Powerlevel10k auto-generated: 
+# Powerlevel10k auto-generated:
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
