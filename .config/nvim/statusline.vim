@@ -1,17 +1,11 @@
-" ====================================================================
-" Make sure to:
-" 1. source this file somewhere at the bottom of your config.
-" 2. disable any statusline plugins, as they will override this.
-" ====================================================================
+" Based on https://github.com/elenapan/dotfiles/blob/master/config/nvim/statusline.vim
+" Uses 16-color from terminals. Requires that termguicolors is NOT set.
 
-" Do not show mode under the statusline since the statusline itself changes
-" color depending on mode
 set noshowmode
 
-set laststatus=2
 " ~~~~ Statusline configuration ~~~~
 " ':help statusline' is your friend!
-function! RedrawModeColors(mode) " {{{
+function! RedrawModeColors(mode)
   " Normal mode
   if a:mode == 'n'
     hi MyStatuslineAccent ctermfg=8 cterm=NONE ctermbg=NONE
@@ -46,8 +40,8 @@ function! RedrawModeColors(mode) " {{{
   " Return empty string so as not to display anything in the statusline
   return ''
 endfunction
-" }}}
-function! SetModifiedSymbol(modified) " {{{
+
+function! SetModifiedSymbol(modified)
     if a:modified == 1
         hi MyStatuslineModifiedBody ctermbg=0 cterm=bold ctermfg=1
     else
@@ -55,15 +49,15 @@ function! SetModifiedSymbol(modified) " {{{
     endif
     return '●'
 endfunction
-" }}}
-function! SetFiletype(filetype) " {{{
+
+function! SetFiletype(filetype)
   if a:filetype == ''
       return '-'
   else
       return a:filetype
   endif
 endfunction
-" }}}
+
 
 " Statusbar items
 " ====================================================================
@@ -75,12 +69,12 @@ set statusline=%{RedrawModeColors(mode())}
 " Left side items
 " =======================
 set statusline+=%#MyStatuslineAccent#
-set statusline+=%#MyStatuslineAccentBody#\ 
+set statusline+=%#MyStatuslineAccentBody#
 " Filename
-set statusline+=%#MyStatuslineFilename#\ %.20f
-set statusline+=%#MyStatuslineSeparator#\ 
+set statusline+=\ %#MyStatuslineFilename#\ %f
+set statusline+=%#MyStatuslineSeparator#
 " Modified status
-set statusline+=%#MyStatuslineModified#
+set statusline+=\ %#MyStatuslineModified#
 set statusline+=%#MyStatuslineModifiedBody#%{SetModifiedSymbol(&modified)}
 set statusline+=%#MyStatuslineModified#
 " Right side items
@@ -88,20 +82,16 @@ set statusline+=%#MyStatuslineModified#
 set statusline+=%=
 " Line and Column
 set statusline+=%#MyStatuslineLineCol#
-set statusline+=%#MyStatuslineLineColBody#%2l
-set statusline+=\/%#MyStatuslineLineColBody#%2c
+set statusline+=%#MyStatuslineLineColBody#%l
+set statusline+=:%#MyStatuslineLineColBody#%c
 set statusline+=%#MyStatuslineLineCol#
-" Padding
-set statusline+=\ 
 " Current scroll percentage and total lines of the file
-set statusline+=%#MyStatuslinePercentage#
+set statusline+=\ %#MyStatuslinePercentage#
 set statusline+=%#MyStatuslinePercentageBody#%P
 set statusline+=\/\%#MyStatuslinePercentageBody#%L
 set statusline+=%#MyStatuslinePercentage#
-" Padding
-set statusline+=\ 
 " Filetype
-set statusline+=%#MyStatuslineFiletype#
+set statusline+=\ %#MyStatuslineFiletype#
 set statusline+=%#MyStatuslineFiletypeBody#%{SetFiletype(&filetype)}
 set statusline+=%#MyStatuslineFiletype#
 
