@@ -113,6 +113,8 @@ if has('timers')
   noremap <expr> <plug>(slash-after) slash#blink(2, 50)
 endif
 
+source ~/.config/nvim/statusline.vim
+
 call plug#end()
 " }}}
 " ============================================================================
