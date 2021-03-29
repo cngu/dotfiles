@@ -44,6 +44,8 @@ Nerd Fonts: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts
 ## macOS setup
 
 **Apps**
+- iTerm2
+  - cngu colorscheme is ephemeral + skyfall:green
 - Karabiner Elements
 - Clipy
 - Dropbox
