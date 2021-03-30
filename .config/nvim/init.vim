@@ -38,8 +38,8 @@ set smartcase
 set number
 set relativenumber
 augroup vimrc
-  autocmd InsertEnter * :set norelativenumber
-  autocmd InsertLeave * :set relativenumber
+  autocmd InsertEnter * set norelativenumber
+  autocmd InsertLeave * set relativenumber
 augroup END
 
 " Max line width hint
@@ -54,7 +54,15 @@ augroup END
 
 " Strip trailing whitespace on save.
 augroup vimrc
-  autocmd BufWritePre * %s/\s\+$//e
+  function! s:StripTrailingWhitespace() abort
+    " The substitution moves the cursor position to each matching line.
+    " So cache and restore cursor position to avoid jumping.
+    let l = line('.')
+    let c = col('.')
+    %s/\s\+$//e
+    call cursor(l, c)
+  endfunction
+  autocmd BufWritePre * :call s:StripTrailingWhitespace()
 augroup END
 
 " Neovim enables autoread by default, which automatically updates the buffer
