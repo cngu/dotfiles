@@ -44,12 +44,13 @@ augroup END
 
 " Max line width hint
 augroup vimrc
-  autocmd FileType *
+  autocmd FileType,WinEnter *
     \ if &ft == 'vim'
       \ | setlocal colorcolumn=79
     \ | elseif &ft != 'help'
       \ | setlocal colorcolumn=121
     \ | endif
+  autocmd WinLeave * setlocal colorcolumn=0
 augroup END
 
 " Strip trailing whitespace on save.
