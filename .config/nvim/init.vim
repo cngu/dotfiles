@@ -127,6 +127,14 @@ endif
 
 Plug 'tpope/vim-commentary'
 
+" vim-polyglot uses vim-vue by edefault, but we use install vim-vue-plugin
+" instead for better vim-commentary integration, better syntax highlighting,
+" and it's much faster when navigating (e.g. gg, G). downside is a flash of no
+" highlighting when first opening a vue file. And when launching vim with
+" multiple files (-O), non-active windows are not highlighted until you :e
+let g:polyglot_disabled = ['vue']
+Plug 'sheerun/vim-polyglot'
+
 let g:vim_vue_plugin_config = {
   \ 'syntax': {
   \   'template': ['html', 'pug'],
@@ -157,15 +165,8 @@ function! OnChangeVueSubtype(subtype)
     setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
   endif
 endfunction
-Plug 'leafOfTree/vim-vue-plugin'
+Plug 'leafOfTree/vim-vue-plugin', { 'for': 'vue' }
 
-" vim-polyglot uses vim-vue by edefault, but we use install vim-vue-plugin
-" above instead for better vim-commentary integration, better syntax
-" highlighting, and it's much faster when navigating (e.g. gg, G).
-" One downside is a flash of no highlighting when first opening a vue file.
-let g:vue_pre_processors = ['pug', 'scss']
-let g:polyglot_disabled = ['vue']
-Plug 'sheerun/vim-polyglot'
 Plug 'joshdick/onedark.vim'
 
 call plug#end()
