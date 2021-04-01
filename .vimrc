@@ -77,9 +77,9 @@ Plug 'junegunn/fzf.vim'
 " enter:select-all+accept
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
-      \   'rg --pcre2 --column --line-number --no-heading --color=always --smart-case --hidden --glob !.git '.(empty(<q-args>) ? "''" : <q-args>), 1, 
-      \   fzf#vim#with_preview({ 
-      \     'options': ['--no-sort', '--bind', 'ctrl-a:select-all,ctrl-d:deselect-all'] 
+      \   'rg --pcre2 --column --line-number --no-heading --color=always --smart-case --follow --hidden --glob !.git '.(empty(<q-args>) ? "''" : <q-args>), 1,
+      \   fzf#vim#with_preview({
+      \     'options': ['--no-sort', '--bind', 'ctrl-a:select-all,ctrl-d:deselect-all']
       \   }), <bang>0)
 nnoremap <Leader>s :Rg<Space>
 nnoremap <Leader>* :Rg -w <C-R><C-W><CR>
@@ -130,23 +130,23 @@ Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'itchyny/lightline.vim'
   set laststatus=2
   set noshowmode
-  let g:lightline = { 
+  let g:lightline = {
     \ 'colorscheme': 'one',
     \ 'active': {
-    \   'left': [ 
+    \   'left': [
     \     [ 'mode', 'paste' ],
-    \     [ 'readonly', 'relativepath', 'modified' ] 
+    \     [ 'readonly', 'relativepath', 'modified' ]
     \   ],
-    \   'right': [ 
+    \   'right': [
     \     [ 'lineinfo' ],
-    \     [ 'gitbranch', 'fileencoding' ] 
+    \     [ 'gitbranch', 'fileencoding' ]
     \   ]
     \ },
     \ 'inactive': {
     \   'left': [
-    \     [ 'relativepath', 'modified' ] 
+    \     [ 'relativepath', 'modified' ]
     \   ],
-    \   'right': [ 
+    \   'right': [
     \     [ 'lineinfo' ]
     \   ]
     \ },
@@ -203,7 +203,7 @@ set shiftwidth=2
 set expandtab smarttab
 set ignorecase smartcase
 
-set foldmethod=marker 
+set foldmethod=marker
 set nofoldenable
 set nomodeline
 
@@ -240,7 +240,7 @@ if has('gui_running')
   " hi Visual guifg=#000000 guibg=#C57BDB
   autocmd InsertEnter * highlight  Cursor guibg=#65B0ED
   autocmd InsertEnter * highlight  CursorLine guibg=#2F3244
-  autocmd InsertLeave * highlight  Cursor guibg=#99C27C 
+  autocmd InsertLeave * highlight  Cursor guibg=#99C27C
   autocmd InsertLeave * highlight  CursorLine guibg=#2C323C
 else
   let &t_SI = "\e[5 q" " SI=INSERT mode, 5=blinking bar
@@ -283,7 +283,7 @@ function! DoFormatXML() range
 	" Recalculate first and last lines of the edited code
 	let l:newFirstLine=search('<PrettyXML>')
 	let l:newLastLine=search('</PrettyXML>')
-	
+
 	" Get inner range
 	let l:innerFirstLine=l:newFirstLine+1
 	let l:innerLastLine=l:newLastLine-1
