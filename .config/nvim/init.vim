@@ -191,5 +191,11 @@ source ~/.config/nvim/statusline.vim
 command PrettyJSON execute "%!jq ."
 command PrettyHTML execute "%!tidy -iq --show-warnings no --tidy-mark no --preserve-entities yes --coerce-endtags no -wrap 0"
 command PrettyXML execute "%!tidy -xml -iq --show-warnings no --preserve-entities yes -wrap"
+
+command ProfileStart
+  \ execute 'profile start profile.log'
+  \ | execute 'profile file *'
+  \ | execute 'profile func *'
+command ProfileEnd execute 'profile stop'
 " }}}
 " ============================================================================

@@ -133,15 +133,11 @@ call s:Highlight(s:hl_groups.progress, s:colors.cyan, s:colors.black)
 " but that is finicky to handle every case e.g. 'VisualEnter' does not exist.
 "
 " Note on performance:
-" 'hi link' is slower than 'hi' to just re-color a given group
-"
-" To profile:
-" - :profile start profile.log
-" - :profile func *
-" - :profile file *
-" - <do slow operation>
-" - :profile pause
-" - :noautocmd qall!
+" - 'hi link' is slower than 'hi' to just re-color a given group.
+" - RenderStatusLine() is only called from the autocmd, so focus more on
+"   evaluated %{} expressions.
+" - Remove any evaluated expressions and function calls in RenderStatusLine().
+" - Does Vim do string interning? Extract common strings into vars and reuse.
 function! HighlightMode(mode) abort
   if get(w:render_cache, 'mode', '') ==# a:mode
     return ''
