@@ -26,15 +26,15 @@ let s:colors = {
   \ 'bright_black': { 'cterm': '8', 'gui': '#5C7087' }
 \ }
 
-let s:mode_names = {
-  \ 'n':  'Normal',
-  \ 'i':  'Insert',
-  \ 'R':  'Replace',
-  \ 'v':  'Visual',
-  \ 'V':  'Visual',
-  \ '': 'Visual',
-  \ 'c':  'Command',
-  \ 't':  'Terminal'
+let s:mode_colors = {
+  \ 'n':  'blue',
+  \ 'i':  'red',
+  \ 'R':  'yellow',
+  \ 'v':  'magenta',
+  \ 'V':  'magenta',
+  \ '': 'magenta',
+  \ 'c':  'cyan',
+  \ 't':  'green'
 \ }
 
 let s:hl_groups = {
@@ -79,20 +79,6 @@ call s:Highlight(s:hl_groups.bubble_bright, s:colors.bright_black)
 call s:Highlight(s:hl_groups.disabled, s:colors.bright_black, s:colors.black)
 call s:Highlight(s:hl_groups.disabled_bright, s:colors.bright_black, s:colors.bright_black)
 
-call s:Highlight(s:hl_groups.badge . s:mode_names['n'], s:colors.blue, s:colors.bright_black)
-call s:Highlight(s:hl_groups.badge . s:mode_names['i'], s:colors.red, s:colors.bright_black)
-call s:Highlight(s:hl_groups.badge . s:mode_names['R'], s:colors.yellow, s:colors.bright_black)
-call s:Highlight(s:hl_groups.badge . s:mode_names['v'], s:colors.magenta, s:colors.bright_black)
-call s:Highlight(s:hl_groups.badge . s:mode_names['c'], s:colors.cyan, s:colors.bright_black)
-call s:Highlight(s:hl_groups.badge . s:mode_names['t'], s:colors.green, s:colors.bright_black)
-
-call s:Highlight(s:hl_groups.file . s:mode_names['n'], s:colors.blue, s:colors.black)
-call s:Highlight(s:hl_groups.file . s:mode_names['i'], s:colors.red, s:colors.black)
-call s:Highlight(s:hl_groups.file . s:mode_names['R'], s:colors.yellow, s:colors.black)
-call s:Highlight(s:hl_groups.file . s:mode_names['v'], s:colors.magenta, s:colors.black)
-call s:Highlight(s:hl_groups.file . s:mode_names['c'], s:colors.cyan, s:colors.black)
-call s:Highlight(s:hl_groups.file . s:mode_names['t'], s:colors.green, s:colors.black)
-
 call s:Highlight(s:hl_groups.lock_inactive, s:colors.bright_black, s:colors.black)
 call s:Highlight(s:hl_groups.lock_active, s:colors.red, s:colors.black)
 
@@ -133,7 +119,7 @@ call s:Highlight(s:hl_groups.progress, s:colors.cyan, s:colors.black)
 " When a highlight group is guaranteed to only be used in a single window's
 " statusline (likely the active window), then we can reduce the length:
 " instead of defining every combination of highlight group states, define only
-" one highlight group and 'hi link' it to another predefined group, based on
+" one highlight group and highlight it to another predefined group, based on
 " your state. In our case, we do this for statusline components based on mode.
 "
 " Note on %{} expressions:
@@ -145,14 +131,26 @@ call s:Highlight(s:hl_groups.progress, s:colors.cyan, s:colors.black)
 " this that re-links highlight groups that are dependent on the current mode.
 " Alternatively, we could re-set the statusline string when the mode changes,
 " but that is finicky to handle every case e.g. 'VisualEnter' does not exist.
+"
+" Note on performance:
+" 'hi link' is slower than 'hi' to just re-color a given group
+"
+" To profile:
+" - :profile start profile.log
+" - :profile func *
+" - :profile file *
+" - <do slow operation>
+" - :profile pause
+" - :noautocmd qall!
 function! HighlightMode(mode) abort
   if get(w:render_cache, 'mode', '') == a:mode
     return ''
   endif
   let w:render_cache.mode = a:mode
 
-  exec 'hi link ' . s:hl_groups.badge . ' ' . s:hl_groups.badge . s:mode_names[a:mode]
-  exec 'hi link ' . s:hl_groups.file . ' ' . s:hl_groups.file . s:mode_names[a:mode]
+  let l:fg = s:colors[s:mode_colors[a:mode]]
+  call s:Highlight(s:hl_groups.badge, l:fg, s:colors.bright_black)
+  call s:Highlight(s:hl_groups.file, l:fg, s:colors.black)
   return ''
 endfunction
 
@@ -176,7 +174,11 @@ function! RenderModifiedDirty(modifiable, modified) abort
 endfunction
 
 function! RenderBranch() abort
-  let l:branch = FugitiveHead()
+  let l:branch = get(w:render_cache, 'branch', 'cache_miss')
+  if l:branch == 'cache_miss'
+    let l:branch = FugitiveHead()
+    let w:render_cache.branch = l:branch
+  endif
   if l:branch == ''
     return '-'
   else
@@ -194,7 +196,10 @@ augroup vimrc
 augroup END
 
 function! s:InitState(window_id) abort
-  call setwinvar(a:window_id, 'render_cache', { 'mode': '' })
+  call setwinvar(a:window_id, 'render_cache', {
+    \ 'mode': '',
+    \ 'branch': ''
+  \ })
 endfunction
 
 function! s:OnActiveWindowChange(window_active) abort

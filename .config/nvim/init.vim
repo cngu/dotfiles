@@ -132,6 +132,7 @@ Plug 'tpope/vim-commentary'
 " and it's much faster when navigating (e.g. gg, G). downside is a flash of no
 " highlighting when first opening a vue file. And when launching vim with
 " multiple files (-O), non-active windows are not highlighted until you :e
+let g:vue_pre_processors = []
 let g:polyglot_disabled = ['vue']
 Plug 'sheerun/vim-polyglot'
 
