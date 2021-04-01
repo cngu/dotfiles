@@ -117,10 +117,7 @@ cnoremap <M-BS> <C-w>
 " ============================================================================
 call plug#begin(stdpath('data') . '/plugged')
 
-" NOTE: vim-polyglot uses vim-vue, which is very slow on vue files
-let g:vue_pre_processors = ['pug', 'scss']
-Plug 'sheerun/vim-polyglot'
-Plug 'joshdick/onedark.vim'
+Plug 'tpope/vim-fugitive'
 
 Plug 'junegunn/vim-slash'
 if has('timers')
@@ -128,7 +125,48 @@ if has('timers')
   noremap <expr> <plug>(slash-after) slash#blink(2, 50)
 endif
 
-Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-commentary'
+
+let g:vim_vue_plugin_config = {
+  \ 'syntax': {
+  \   'template': ['html', 'pug'],
+  \   'script': ['javascript', 'typescript'],
+  \   'style': ['scss']
+  \ },
+  \ 'full_syntax': [],
+  \ 'attribute': 0,
+  \ 'keyword': 1,
+  \ 'foldexpr': 0,
+  \ 'init_indent': 0,
+  \ 'debug': 0
+\ }
+function! OnChangeVueSubtype(subtype)
+  " https://github.com/leafOfTree/vim-vue-plugin/issues/26
+  " https://github.com/digitaltoad/vim-pug/issues/103
+  " echom 'subtype is '.a:subtype
+  if a:subtype == 'pug'
+    setlocal commentstring=//-\ %s
+    setlocal comments=://-,:// commentstring=//-\ %s
+  elseif a:subtype == 'html'
+    setlocal commentstring=<!--%s-->
+    setlocal comments=s:<!--,m:\ \ \ \ ,e:-->
+  elseif a:subtype =~ 'css'
+    setlocal comments=s1:/*,mb:*,ex:*/ commentstring&
+  else
+    setlocal commentstring=//%s
+    setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+  endif
+endfunction
+Plug 'leafOfTree/vim-vue-plugin'
+
+" vim-polyglot uses vim-vue by edefault, but we use install vim-vue-plugin
+" above instead for better vim-commentary integration, better syntax
+" highlighting, and it's much faster when navigating (e.g. gg, G).
+" One downside is a flash of no highlighting when first opening a vue file.
+let g:vue_pre_processors = ['pug', 'scss']
+let g:polyglot_disabled = ['vue']
+Plug 'sheerun/vim-polyglot'
+Plug 'joshdick/onedark.vim'
 
 call plug#end()
 " }}}
