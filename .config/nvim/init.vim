@@ -116,6 +116,11 @@ cnoremap <M-BS> <C-w>
 " ============================================================================
 call plug#begin(stdpath('data') . '/plugged')
 
+" NOTE: vim-polyglot uses vim-vue, which is very slow on vue files
+let g:vue_pre_processors = ['pug', 'scss']
+Plug 'sheerun/vim-polyglot'
+Plug 'joshdick/onedark.vim'
+
 Plug 'junegunn/vim-slash'
 if has('timers')
   " Blink 2 times with 50ms interval
@@ -124,9 +129,18 @@ endif
 
 Plug 'tpope/vim-fugitive'
 
+call plug#end()
+" }}}
+" ============================================================================
+
+" ============================================================================
+" Colorscheme {{{
+" ============================================================================
+set termguicolors
+
+colorscheme onedark
 source ~/.config/nvim/statusline.vim
 
-call plug#end()
 " }}}
 " ============================================================================
 
