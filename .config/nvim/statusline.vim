@@ -143,7 +143,7 @@ call s:Highlight(s:hl_groups.progress, s:colors.cyan, s:colors.black)
 " - :profile pause
 " - :noautocmd qall!
 function! HighlightMode(mode) abort
-  if get(w:render_cache, 'mode', '') == a:mode
+  if get(w:render_cache, 'mode', '') ==# a:mode
     return ''
   endif
   let w:render_cache.mode = a:mode
@@ -175,11 +175,11 @@ endfunction
 
 function! RenderBranch() abort
   let l:branch = get(w:render_cache, 'branch', 'cache_miss')
-  if l:branch == 'cache_miss'
+  if l:branch ==# 'cache_miss'
     let l:branch = FugitiveHead()
     let w:render_cache.branch = l:branch
   endif
-  if l:branch == ''
+  if l:branch ==# ''
     return '-'
   else
     return l:branch

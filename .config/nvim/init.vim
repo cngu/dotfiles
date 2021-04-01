@@ -46,9 +46,9 @@ augroup END
 " Max line width hint
 augroup vimrc
   autocmd FileType,WinEnter *
-    \ if &ft == 'vim'
+    \ if &ft ==# 'vim'
       \ | setlocal colorcolumn=79
-    \ | elseif &ft != 'help'
+    \ | elseif &ft !=# 'help'
       \ | setlocal colorcolumn=121
     \ | endif
   autocmd WinLeave * setlocal colorcolumn=0
@@ -153,10 +153,10 @@ function! OnChangeVueSubtype(subtype)
   " https://github.com/leafOfTree/vim-vue-plugin/issues/26
   " https://github.com/digitaltoad/vim-pug/issues/103
   " echom 'subtype is '.a:subtype
-  if a:subtype == 'pug'
+  if a:subtype ==# 'pug'
     setlocal commentstring=//-\ %s
     setlocal comments=://-,:// commentstring=//-\ %s
-  elseif a:subtype == 'html'
+  elseif a:subtype ==# 'html'
     setlocal commentstring=<!--%s-->
     setlocal comments=s:<!--,m:\ \ \ \ ,e:-->
   elseif a:subtype =~ 'css'
