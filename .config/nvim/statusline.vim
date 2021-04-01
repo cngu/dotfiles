@@ -16,14 +16,14 @@ let s:icon_star = ''
 
 let s:colors = {
   \ 'transparent':  { 'cterm': 'NONE', 'gui': 'NONE' },
-  \ 'black':        { 'cterm': '0', 'gui': '#293340' },
+  \ 'black':        { 'cterm': '0', 'gui': '#33404F' },
   \ 'red':          { 'cterm': '1', 'gui': '#F48FB1' },
   \ 'green':        { 'cterm': '2', 'gui': '#A1EFD3' },
   \ 'yellow':       { 'cterm': '3', 'gui': '#F1FA8C' },
   \ 'blue':         { 'cterm': '4', 'gui': '#92B6F4' },
   \ 'magenta':      { 'cterm': '5', 'gui': '#BD99FF' },
   \ 'cyan':         { 'cterm': '6', 'gui': '#87DFEB' },
-  \ 'bright_black': { 'cterm': '8', 'gui': '#56687E' }
+  \ 'bright_black': { 'cterm': '8', 'gui': '#5C7087' }
 \ }
 
 let s:mode_names = {

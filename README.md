@@ -43,7 +43,8 @@ Nerd Fonts: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts
 
 **cngu iTerm colorscheme**
 - Ephemeral base
-- Black darkened by 10% for better contrast with bright black: #293340
+- Black darkened by 5%: #33404F
+- Bright Black lightened by 3%: #5C7087
 - Background taken from onedark.vim so terminal and vim match: #282c34
 
 ## macOS setup
