@@ -16,7 +16,7 @@ let s:icon_star = ''
 
 let s:colors = {
   \ 'transparent':  { 'cterm': 'NONE', 'gui': 'NONE' },
-  \ 'black':        { 'cterm': '0', 'gui': '#3D4C5F' },
+  \ 'black':        { 'cterm': '0', 'gui': '#293340' },
   \ 'red':          { 'cterm': '1', 'gui': '#F48FB1' },
   \ 'green':        { 'cterm': '2', 'gui': '#A1EFD3' },
   \ 'yellow':       { 'cterm': '3', 'gui': '#F1FA8C' },

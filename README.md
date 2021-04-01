@@ -41,6 +41,11 @@ Nerd Fonts: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts
 - vim-plug: https://github.com/junegunn/vim-plug
   - Install to `~/.config/nvim/autoload/plug.vim
 
+**cngu iTerm colorscheme**
+- Ephemeral base
+- Black darkened by 10% for better contrast with bright black: #293340
+- Background taken from onedark.vim so terminal and vim match: #282c34
+
 ## macOS setup
 
 **Apps**
@@ -53,4 +58,3 @@ Nerd Fonts: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts
 **Terminal.app**
 - Terminal > Preferences > Profiles > Keyboard > "Use Option as Meta key" (fzf Option-a select-all)
 - defaults write -g ApplePressAndHoldEnabled -bool false
-
