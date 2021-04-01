@@ -8,6 +8,12 @@
 
 set noshowmode
 
+let s:icon_lock = ''
+let s:icon_circle = ''
+let s:icon_circle_left = ''
+let s:icon_circle_right = ''
+let s:icon_star = ''
+
 let s:colors = {
   \ 'transparent':  { 'cterm': 'NONE', 'gui': 'NONE' },
   \ 'black':        { 'cterm': '0', 'gui': '#3D4C5F' },
@@ -20,15 +26,39 @@ let s:colors = {
   \ 'bright_black': { 'cterm': '8', 'gui': '#56687E' }
 \ }
 
-let s:modes = {
-  \ 'n': 'Normal',
-  \ 'i': 'Insert',
-  \ 'R': 'Replace',
-  \ 'v': 'Visual',
-  \ 'V': 'Visual',
+let s:mode_names = {
+  \ 'n':  'Normal',
+  \ 'i':  'Insert',
+  \ 'R':  'Replace',
+  \ 'v':  'Visual',
+  \ 'V':  'Visual',
   \ '': 'Visual',
-  \ 'c': 'Command',
-  \ 't': 'Terminal'
+  \ 'c':  'Command',
+  \ 't':  'Terminal'
+\ }
+
+let s:hl_groups = {
+  \ 'bubble':          'MyStatusLineBubble',
+  \ 'bubble_bright':   'MyStatusLineBubbleBright',
+  \ 'disabled':        'MyStatusLineDisabled',
+  \ 'disabled_bright': 'MyStatusLineDisabledBright',
+  \ 'badge':           'MyStatusLineBadge',
+  \ 'file':            'MyStatusLineFile',
+  \ 'lock_inactive':   'MyStatusLineLockInactive',
+  \ 'lock_active':     'MyStatusLineLockActive',
+  \ 'modified_clean':  'MyStatusLineModifiedClean',
+  \ 'modified_dirty':  'MyStatusLineModifiedDirty',
+  \ 'branch':          'MyStatusLineBranch',
+  \ 'linecol':         'MyStatusLineLineCol',
+  \ 'progress':        'MyStatusLineProgress'
+\ }
+
+let s:hl_group_active_pairs = {
+  \ 'badge':    [s:hl_groups.disabled_bright, s:hl_groups.badge],
+  \ 'file':     [s:hl_groups.disabled,        s:hl_groups.file],
+  \ 'branch':   [s:hl_groups.disabled,        s:hl_groups.branch],
+  \ 'linecol':  [s:hl_groups.disabled,        s:hl_groups.linecol],
+  \ 'progress': [s:hl_groups.disabled,        s:hl_groups.progress]
 \ }
 
 function! s:Highlight(group, fg, ...) abort
@@ -43,129 +73,109 @@ function! s:Highlight(group, fg, ...) abort
   endif
 endfunction
 
-call s:Highlight('MyStatuslineDisabled', s:colors.bright_black, s:colors.black)
-call s:Highlight('MyStatuslineDisabledBright', s:colors.bright_black, s:colors.bright_black)
-call s:Highlight('MyStatuslineBubble', s:colors.black)
-call s:Highlight('MyStatuslineBubbleBright', s:colors.bright_black)
-" MyStatuslineBadge
-call s:Highlight('MyStatuslineBadgeNormal', s:colors.blue, s:colors.bright_black)
-call s:Highlight('MyStatuslineBadgeInsert', s:colors.red, s:colors.bright_black)
-call s:Highlight('MyStatuslineBadgeReplace', s:colors.yellow, s:colors.bright_black)
-call s:Highlight('MyStatuslineBadgeVisual', s:colors.magenta, s:colors.bright_black)
-call s:Highlight('MyStatuslineBadgeCommand', s:colors.cyan, s:colors.bright_black)
-call s:Highlight('MyStatuslineBadgeTerminal', s:colors.green, s:colors.bright_black)
-" MyStatuslineFile
-call s:Highlight('MyStatuslineFileNormal', s:colors.blue, s:colors.black)
-call s:Highlight('MyStatuslineFileInsert', s:colors.red, s:colors.black)
-call s:Highlight('MyStatuslineFileReplace', s:colors.yellow, s:colors.black)
-call s:Highlight('MyStatuslineFileVisual', s:colors.magenta, s:colors.black)
-call s:Highlight('MyStatuslineFileCommand', s:colors.cyan, s:colors.black)
-call s:Highlight('MyStatuslineFileTerminal', s:colors.green, s:colors.black)
-" MyStatuslineEditSymbol
-call s:Highlight('MyStatuslineEditClean', s:colors.bright_black, s:colors.black)
-call s:Highlight('MyStatuslineEditModified', s:colors.red, s:colors.black)
-call s:Highlight('MyStatuslineEditReadonly', s:colors.red, s:colors.black)
-" MyStatuslineBranch
-call s:Highlight('MyStatuslineBranchActive', s:colors.magenta, s:colors.black)
-" MyStatuslineLineCol
-call s:Highlight('MyStatuslineLineColActive', s:colors.green, s:colors.black)
-" MyStatuslineProgress
-call s:Highlight('MyStatuslineProgressActive', s:colors.cyan, s:colors.black)
+call s:Highlight(s:hl_groups.bubble, s:colors.black)
+call s:Highlight(s:hl_groups.bubble_bright, s:colors.bright_black)
 
-" Paint* functions re-link highlight groups based on the given state.
-" This is embedded in the statusline declaration as an expression that will be
-" evaluated very frequently as the statusline re-renders.
-" For performance, cache data and early return as soon as possible.
-" Ideally we would call this ourselves only when necessary e.g. with autocmd.
-" But it is finicky to handle every case e.g. 'VisualEnter' does not exist.
-" https://stackoverflow.com/questions/15561132/run-command-when-vim-enters-visual-mode
-let s:cache = {
-  \ 'mode': '',
-  \ 'modified': -1,
-  \ 'readonly': -1,
-  \ 'is_active_window': -1
-\ }
+call s:Highlight(s:hl_groups.disabled, s:colors.bright_black, s:colors.black)
+call s:Highlight(s:hl_groups.disabled_bright, s:colors.bright_black, s:colors.bright_black)
 
-let w:is_active_window = 1
-augroup vimrc
-  autocmd WinEnter * let w:is_active_window = 1
-  autocmd WinLeave * let w:is_active_window = 0
-augroup END
+call s:Highlight(s:hl_groups.badge . s:mode_names['n'], s:colors.blue, s:colors.bright_black)
+call s:Highlight(s:hl_groups.badge . s:mode_names['i'], s:colors.red, s:colors.bright_black)
+call s:Highlight(s:hl_groups.badge . s:mode_names['R'], s:colors.yellow, s:colors.bright_black)
+call s:Highlight(s:hl_groups.badge . s:mode_names['v'], s:colors.magenta, s:colors.bright_black)
+call s:Highlight(s:hl_groups.badge . s:mode_names['c'], s:colors.cyan, s:colors.bright_black)
+call s:Highlight(s:hl_groups.badge . s:mode_names['t'], s:colors.green, s:colors.bright_black)
 
-function! s:PaintFocusState() abort
-  if s:cache.is_active_window == w:is_active_window
-    return
+call s:Highlight(s:hl_groups.file . s:mode_names['n'], s:colors.blue, s:colors.black)
+call s:Highlight(s:hl_groups.file . s:mode_names['i'], s:colors.red, s:colors.black)
+call s:Highlight(s:hl_groups.file . s:mode_names['R'], s:colors.yellow, s:colors.black)
+call s:Highlight(s:hl_groups.file . s:mode_names['v'], s:colors.magenta, s:colors.black)
+call s:Highlight(s:hl_groups.file . s:mode_names['c'], s:colors.cyan, s:colors.black)
+call s:Highlight(s:hl_groups.file . s:mode_names['t'], s:colors.green, s:colors.black)
+
+call s:Highlight(s:hl_groups.lock_inactive, s:colors.bright_black, s:colors.black)
+call s:Highlight(s:hl_groups.lock_active, s:colors.red, s:colors.black)
+
+call s:Highlight(s:hl_groups.modified_clean, s:colors.bright_black, s:colors.black)
+call s:Highlight(s:hl_groups.modified_dirty, s:colors.red, s:colors.black)
+
+call s:Highlight(s:hl_groups.branch, s:colors.magenta, s:colors.black)
+
+call s:Highlight(s:hl_groups.linecol, s:colors.green, s:colors.black)
+
+call s:Highlight(s:hl_groups.progress, s:colors.cyan, s:colors.black)
+
+" Highlight notes:
+"
+" Dynamic highlight groups are not possible. They must be statically declared.
+"
+" It's also important to understand that highlight groups are global.
+" If you modify a highlight group and you notice that it's not updating an
+" inactive window's statusline, that's simply because Vim is not re-rendering
+" the inactive statusline. If you then try an approach where you rely on Vim
+" to evaluate %{} expressions to highlight the statusline last on the active
+" window, and stop evaluating on inactive windows, then the statuslines would
+" render correctly on all windows, but with massive performance issues if you
+" do any operation that would cause the statusline on inactive windows to
+" re-render. The windows try and modify the highlight, and trigger
+" re-rendering on other windows, continuously overwriting each other.
+" An easy test is to try and mouse-scroll on an inactive window.
+"
+" Highlight groups cannot be set locally either:
+" - https://github.com/vim/vim/issues/3576
+" - https://stackoverflow.com/questions/49301534/vim-highlight-setting-local
+"
+" Therefore, we take the approach explained here:
+" - https://gist.github.com/romainl/58245df413641497a02ffc06fd1f4747
+" - We also use a different statusline string for active vs inactive windows.
+"
+" However, this can result in quite a lengthy statusline string.
+" When a highlight group is guaranteed to only be used in a single window's
+" statusline (likely the active window), then we can reduce the length:
+" instead of defining every combination of highlight group states, define only
+" one highlight group and 'hi link' it to another predefined group, based on
+" your state. In our case, we do this for statusline components based on mode.
+"
+" Note on %{} expressions:
+" They are evaluated very frequently as the statusline re-renders.
+" For performance, ensure embedded functions return early as possible.
+" They are usually used to return dynamic content on each render.
+" However, they can also be used as a hook to execute arbitrary code, for
+" example highlight commands, on every render. HighlightMode is an example of
+" this that re-links highlight groups that are dependent on the current mode.
+" Alternatively, we could re-set the statusline string when the mode changes,
+" but that is finicky to handle every case e.g. 'VisualEnter' does not exist.
+function! HighlightMode(mode) abort
+  if get(w:render_cache, 'mode', '') == a:mode
+    return ''
   endif
-  let s:cache.is_active_window = w:is_active_window
+  let w:render_cache.mode = a:mode
 
-  if w:is_active_window == 0
-    hi link MyStatuslineBadge MyStatuslineDisabledBright
-    hi link MyStatuslineFile MyStatuslineDisabled
-    hi link MyStatuslineEditSymbol MyStatuslineDisabled
-    hi link MyStatuslineBranch MyStatuslineDisabled
-    hi link MyStatuslineLineCol MyStatuslineDisabled
-    hi link MyStatuslineProgress MyStatuslineDisabled
-    let s:cache.mode = ''
-    let s:cache.modified = -1
-    let s:cache.readonly = -1
-  else
-    hi link MyStatuslineBranch MyStatuslineBranchActive
-    hi link MyStatuslineLineCol MyStatuslineLineColActive
-    hi link MyStatuslineProgress MyStatuslineProgressActive
-  endif
-endfunction
-
-function! s:PaintMode(mode) abort
-  if w:is_active_window == 0
-    return
-  endif
-
-  if s:cache.mode == a:mode
-    return
-  endif
-
-  let s:cache.mode = a:mode
-  exec 'hi link MyStatuslineBadge MyStatuslineBadge' . s:modes[a:mode]
-  exec 'hi link MyStatuslineFile MyStatuslineFile' . s:modes[a:mode]
-endfunction
-
-function! s:PaintEditSymbol(modified, readonly) abort
-  if a:readonly == 1
-    if w:is_active_window == 1 && s:cache.readonly != a:readonly
-      let s:cache.readonly = a:readonly
-      hi link MyStatuslineEditSymbol MyStatuslineEditReadonly
-    endif
-    return
-  else
-    let s:cache.readonly = a:readonly
-  endif
-
-  if s:cache.modified != a:modified
-    let s:cache.modified = a:modified
-    if a:modified == 0
-      hi link MyStatuslineEditSymbol MyStatuslineEditClean
-    else
-      hi link MyStatuslineEditSymbol MyStatuslineEditModified
-    endif
-  endif
-endfunction
-
-function! PaintMyStatusline(mode, modified, readonly) abort
-  call s:PaintFocusState()
-  call s:PaintMode(a:mode)
-  call s:PaintEditSymbol(a:modified, a:readonly)
+  exec 'hi link ' . s:hl_groups.badge . ' ' . s:hl_groups.badge . s:mode_names[a:mode]
+  exec 'hi link ' . s:hl_groups.file . ' ' . s:hl_groups.file . s:mode_names[a:mode]
   return ''
 endfunction
 
-function! GetEditSymbol(readonly) abort
-  if a:readonly == 1
-    return ''
-  else
-    return '●'
-  endif
+function! RenderLockInactive(window_active, modifiable, readonly) abort
+  " Right padding in case the 'modified' circle is also shown
+  let l:icon = s:icon_lock . (a:modifiable ? ' ' : '')
+  return (!a:window_active && (!a:modifiable || a:readonly)) ? l:icon : ''
 endfunction
 
-function! GetBranch() abort
+function! RenderLockActive(window_active, modifiable, readonly) abort
+  let l:icon = s:icon_lock . (a:modifiable ? ' ' : '')
+  return (a:window_active && (!a:modifiable || a:readonly)) ? l:icon : ''
+endfunction
+
+function! RenderModifiedClean(modifiable, modified) abort
+  return (a:modifiable && !a:modified) ? s:icon_circle : ''
+endfunction
+
+function! RenderModifiedDirty(modifiable, modified) abort
+  return (a:modifiable && a:modified) ? s:icon_circle : ''
+endfunction
+
+function! RenderBranch() abort
   let l:branch = FugitiveHead()
   if l:branch == ''
     return '-'
@@ -174,42 +184,68 @@ function! GetBranch() abort
   endif
 endfunction
 
-function! Debug() abort
-  return '[DEBUG] winnr(' . winnr()
-    \ . ') is_active_window(' . s:cache.is_active_window
-    \ . ') mode(' . s:cache.mode
-    \ . ') modified(' . s:cache.modified
-    \ . ') readonly(' . s:cache.readonly
-    \ . ')'
+augroup vimrc
+  autocmd WinEnter,BufEnter * call s:OnActiveWindowChange(1)
+  autocmd WinLeave          * call s:OnActiveWindowChange(0)
+
+  " When launching Vim with multiple windows via '-O', render the
+  " statusline of all inactive windows once.
+  autocmd VimEnter * ++once call s:RenderInactiveWindowStatusLines()
+augroup END
+
+function! s:InitState(window_id) abort
+  call setwinvar(a:window_id, 'render_cache', { 'mode': '' })
 endfunction
 
-" Start constructing statusline
-" We don't use setlocal because it won't apply to top-level windows like :h
-set statusline=%{PaintMyStatusline(mode(),&modified,&readonly)}
-"set statusline+=%{Debug()}
+function! s:OnActiveWindowChange(window_active) abort
+  let l:window_id = winnr()
+  call s:InitState(l:window_id)
+  call s:RenderStatusLine(l:window_id, a:window_active)
+endfunction
 
-" Left side
-set statusline+=%#MyStatuslineBubbleBright#
-set statusline+=%#MyStatuslineBadge#
-set statusline+=%{'\ '}
-set statusline+=%#MyStatuslineFile#\ %f
-set statusline+=%#MyStatuslineBubble#
-set statusline+=%{'\ '}
-set statusline+=%#MyStatuslineBubble#
-set statusline+=%#MyStatuslineEditSymbol#%{GetEditSymbol(&readonly)}
-set statusline+=%#MyStatuslineBubble#
+function! s:RenderInactiveWindowStatusLines() abort
+  let l:window_id = winnr()
+  for n in range(1, winnr('$'))
+    if l:window_id != n
+      call s:InitState(n)
+      call s:RenderStatusLine(n, 0)
+    endif
+  endfor
+endfunction
 
-set statusline+=%=
+function! s:RenderStatusLine(window_id, window_active) abort
+  let l:line = '%{HighlightMode(mode())}'
 
-" Right side
-set statusline+=%#MyStatuslineBubble#
-set statusline+=%#MyStatuslineBranch#%{GetBranch()}
-set statusline+=%#MyStatuslineBubble#
-set statusline+=%{'\ '}
-set statusline+=%#MyStatuslineBubble#
-set statusline+=%#MyStatuslineLineCol#%l:%c
-set statusline+=%#MyStatuslineBubble#
-set statusline+=%{'\ '}
-set statusline+=%#MyStatuslineBubble#
-set statusline+=%#MyStatuslineProgress#%P\/%L
-set statusline+=%#MyStatuslineBubble#
+  " Left side
+  let l:line .= '%#' . s:hl_groups.bubble_bright . '#' . s:icon_circle_left
+  let l:line .= '%#' . s:hl_group_active_pairs.badge[a:window_active] . '#' . s:icon_star . ' '
+  let l:line .= '%#' . s:hl_group_active_pairs.file[a:window_active] . '# %f'
+  let l:line .= '%#' . s:hl_groups.bubble . '#' . s:icon_circle_right
+  let l:line .= ' '
+  let l:line .= '%#' . s:hl_groups.bubble . '#' . s:icon_circle_left
+  let l:line .= '%#MyStatusLineLockInactive#%{RenderLockInactive(''' . a:window_active . ''',&modifiable,&readonly)}'
+  let l:line .= '%#MyStatusLineLockActive#%{RenderLockActive(''' . a:window_active . ''',&modifiable,&readonly)}'
+  let l:line .= '%#MyStatusLineModifiedClean#%{RenderModifiedClean(&modifiable,&modified)}'
+  let l:line .= '%#MyStatusLineModifiedDirty#%{RenderModifiedDirty(&modifiable,&modified)}'
+  let l:line .= '%#' . s:hl_groups.bubble . '#' . s:icon_circle_right
+
+  " Spacer between left and right items
+  let l:line .= '%='
+
+  " Right side
+  let l:line .= '%#' . s:hl_groups.bubble . '#' . s:icon_circle_left
+  let l:line .= '%#' . s:hl_group_active_pairs.branch[a:window_active] . '#%{RenderBranch()}'
+  let l:line .= '%#' . s:hl_groups.bubble . '#' . s:icon_circle_right
+  let l:line .= ' '
+  let l:line .= '%#' . s:hl_groups.bubble . '#' . s:icon_circle_left
+  let l:line .= '%#' . s:hl_group_active_pairs.linecol[a:window_active] . '#%l:%c'
+  let l:line .= '%#' . s:hl_groups.bubble . '#' . s:icon_circle_right
+  let l:line .= ' '
+  let l:line .= '%#' . s:hl_groups.bubble . '#' . s:icon_circle_left
+  let l:line .= '%#' . s:hl_group_active_pairs.progress[a:window_active] . '#%P/%L'
+  let l:line .= '%#' . s:hl_groups.bubble . '#' . s:icon_circle_right
+
+  if getwinvar(a:window_id, '&statusline') != l:line
+    call setwinvar(a:window_id, '&statusline', l:line)
+  endif
+endfunction
