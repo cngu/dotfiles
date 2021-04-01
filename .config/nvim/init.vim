@@ -29,6 +29,7 @@ set hidden
 set tabstop=2
 set shiftwidth=2
 set expandtab
+let g:vim_indent_cont = &shiftwidth
 
 " Case-sensitive search if query includes caps; otherwise case-insensitive.
 set ignorecase
