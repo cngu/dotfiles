@@ -290,13 +290,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.30588236451148987</real>
+				<real>0.20392157137393951</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.24705882370471954</real>
+				<real>0.17254902422428131</real>
 				<key>Red Component</key>
-				<real>0.19607843458652496</real>
+				<real>0.15686275064945221</real>
 			</dict>
 			<key>Foreground Color</key>
 			<dict>
@@ -329,26 +329,26 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.0</real>
+				<real>0.94901961088180542</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.0</real>
+				<real>0.97254902124404907</real>
 				<key>Red Component</key>
-				<real>0.0</real>
+				<real>0.97254902124404907</real>
 			</dict>
 			<key>Selection Color</key>
 			<dict>
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>1</real>
+				<real>0.32156863808631897</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.86970102787017822</real>
+				<real>0.26666668057441711</real>
 				<key>Red Component</key>
-				<real>0.75813239812850952</real>
+				<real>0.24313725531101227</real>
 			</dict>
 		</dict>
 	</dict>
@@ -483,13 +483,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.30980392156862746</real>
+				<real>0.30980393290519714</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.25098039215686274</real>
+				<real>0.25098040699958801</real>
 				<key>Red Component</key>
-				<real>0.20000000000000001</real>
+				<real>0.20000000298023224</real>
 			</dict>
 			<key>Ansi 1 Color</key>
 			<dict>
@@ -717,7 +717,7 @@
 				<real>1</real>
 			</dict>
 			<key>Blinking Cursor</key>
-			<false/>
+			<true/>
 			<key>Blur</key>
 			<false/>
 			<key>Bold Color</key>
@@ -774,14 +774,16 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.30588236451148987</real>
+				<real>0.20392156862745098</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.24705882370471954</real>
+				<real>0.17254901960784313</real>
 				<key>Red Component</key>
-				<real>0.19607843458652496</real>
+				<real>0.15686274509803921</real>
 			</dict>
+			<key>Cursor Type</key>
+			<integer>1</integer>
 			<key>Custom Command</key>
 			<string>No</string>
 			<key>Custom Directory</key>
@@ -1295,26 +1297,26 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.0</real>
+				<real>0.94901960784313721</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.0</real>
+				<real>0.97254901960784312</real>
 				<key>Red Component</key>
-				<real>0.0</real>
+				<real>0.97254901960784312</real>
 			</dict>
 			<key>Selection Color</key>
 			<dict>
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>1</real>
+				<real>0.32156862745098042</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.86970102787017822</real>
+				<real>0.26666666666666666</real>
 				<key>Red Component</key>
-				<real>0.75813239812850952</real>
+				<real>0.24313725490196078</real>
 			</dict>
 			<key>Send Code When Idle</key>
 			<false/>
@@ -1339,7 +1341,14 @@
 			<key>Transparency</key>
 			<real>0.0</real>
 			<key>Triggers</key>
-			<array/>
+			<array>
+				<dict>
+					<key>action</key>
+					<string>BounceTrigger</string>
+					<key>regex</key>
+					<string></string>
+				</dict>
+			</array>
 			<key>Unlimited Scrollback</key>
 			<false/>
 			<key>Use Bold Font</key>

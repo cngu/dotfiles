@@ -46,6 +46,11 @@ Nerd Fonts: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts
 - Black darkened by 5%: #33404F
 - Bright Black lightened by 3%: #5C7087
 - Background taken from onedark.vim so terminal and vim match: #282c34
+- 'Cursor text' matches 'Background' (from onedark.vim)
+- 'Cursor' matches 'Foreground'
+- Until iTerm allows preserving selected color text (see TODO below)
+  - 'Selection' set to onedark.vim background: #3E4452
+  - 'Selected text' matches 'Foreground'
 
 ## macOS setup
 
@@ -59,3 +64,7 @@ Nerd Fonts: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts
 **Terminal.app**
 - Terminal > Preferences > Profiles > Keyboard > "Use Option as Meta key" (fzf Option-a select-all)
 - defaults write -g ApplePressAndHoldEnabled -bool false
+
+## TODO
+
+- iTerm text color should stay the same even while selected: https://gitlab.com/gnachman/iterm2/-/issues/8761
