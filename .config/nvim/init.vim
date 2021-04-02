@@ -119,6 +119,9 @@ call plug#begin(stdpath('data') . '/plugged')
 
 Plug 'tpope/vim-fugitive'
 
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+
 Plug 'junegunn/vim-slash'
 if has('timers')
   " Blink 2 times with 50ms interval
