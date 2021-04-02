@@ -125,51 +125,37 @@ if has('timers')
   noremap <expr> <plug>(slash-after) slash#blink(2, 50)
 endif
 
+Plug 'Shougo/context_filetype.vim'
 Plug 'tpope/vim-commentary'
+function! SetCommentString() abort
+  let l:ft = context_filetype#get().filetype
+  if l:ft =~ 'css'
+    set commentstring=/*\ %s\ */
+  elseif l:ft ==# 'pug'
+    set commentstring=//-\ %s
+  elseif l:ft ==# 'html'
+    set commentstring=<!--\ %s\ -->
+  else
+    set commentstring=//\ %s
+  endif
+endfunction
+xmap <silent> gc  :call SetCommentString()<CR>:'<,'>Commentary<CR>
+nmap <silent> gc  :call SetCommentString()<CR><Plug>Commentary
+omap <silent> gc  <Plug>Commentary
+nmap <silent> gcc :call SetCommentString()<CR><Plug>CommentaryLine
+nmap <silent> cgc :call SetCommentString()<CR><Plug>ChangeCommentary
+nmap <silent> gcu :call SetCommentString()<CR><Plug>Commentary<Plug>Commentary
 
-" vim-polyglot uses vim-vue by edefault, but we use install vim-vue-plugin
-" instead for better vim-commentary integration, better syntax highlighting,
-" and it's much faster when navigating (e.g. gg, G). downside is a flash of no
-" highlighting when first opening a vue file. And when launching vim with
-" multiple files (-O), non-active windows are not highlighted until you :e
+" Disable vim-vue pug/scss/etc pre-processors for performance.
+" Without this, editing and searching (with /) is sluggish.
+" This means we lose some syntax highlighting.
+" vim-vue-plugin is just as slow, but has better syntax highlighting, and
+" it expects an OnChangeVueSubtype callback instead of context_filetype.vim.
 let g:vue_pre_processors = []
 let g:polyglot_disabled = ['vue']
 Plug 'sheerun/vim-polyglot'
 
-let g:vim_vue_plugin_config = {
-  \ 'syntax': {
-  \   'template': ['html', 'pug'],
-  \   'script': ['javascript', 'typescript'],
-  \   'style': ['scss']
-  \ },
-  \ 'full_syntax': [],
-  \ 'attribute': 0,
-  \ 'keyword': 1,
-  \ 'foldexpr': 0,
-  \ 'init_indent': 0,
-  \ 'debug': 0
-\ }
-function! OnChangeVueSubtype(subtype)
-  " https://github.com/leafOfTree/vim-vue-plugin/issues/26
-  " https://github.com/digitaltoad/vim-pug/issues/103
-  " echom 'subtype is '.a:subtype
-  if a:subtype ==# 'pug'
-    setlocal commentstring=//-\ %s
-    setlocal comments=://-,:// commentstring=//-\ %s
-  elseif a:subtype ==# 'html'
-    setlocal commentstring=<!--%s-->
-    setlocal comments=s:<!--,m:\ \ \ \ ,e:-->
-  elseif a:subtype =~ 'css'
-    setlocal comments=s1:/*,mb:*,ex:*/ commentstring&
-  else
-    setlocal commentstring=//%s
-    setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
-  endif
-endfunction
-Plug 'leafOfTree/vim-vue-plugin', { 'for': 'vue' }
-
 Plug 'joshdick/onedark.vim'
-
 call plug#end()
 " }}}
 " ============================================================================
@@ -180,6 +166,7 @@ call plug#end()
 set termguicolors
 
 colorscheme onedark
+
 source ~/.config/nvim/statusline.vim
 
 " }}}
