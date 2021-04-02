@@ -31,13 +31,17 @@ Nerd Fonts: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts
   - Stick prompt to bottom: https://www.reddit.com/r/zsh/comments/dsh1g3/new_powerlevel10k_feature_transient_prompt/f6rmpgc/
 - nvim
 - ripgrep
-- jq
-- tidy-html5
+- fzf
+  ```
+  $(brew --prefix)/opt/fzf/install
+  ```
 - bat
   ```
   bat cache --clear
   bat cache --build
   ```
+- jq
+- tidy-html5
 - thefuck
 - fasd
 

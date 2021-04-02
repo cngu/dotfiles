@@ -4,4 +4,6 @@
 # --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 export FZF_DEFAULT_COMMAND="rg --files $RG_COMMON_OPTS"
 
-export FZF_DEFAULT_OPTS='--layout=reverse --info=inline --bind ctrl-h:toggle-preview'
+# Hidden binding to scroll preview window: Shift+Up and Shift+Down
+# https://github.com/junegunn/fzf recommends NOT to add --preview option here. For manual preview: fzf --preview 'bat {}'
+export FZF_DEFAULT_OPTS='--layout=reverse --info=inline --keep-right --bind ctrl-h:toggle-preview'

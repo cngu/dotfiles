@@ -80,7 +80,7 @@ augroup end
 " ============================================================================
 
 " ============================================================================
-" Key Mappings {{{
+" Base Key Mappings {{{
 " ============================================================================
 " Tip: In insert or command mode, hit CTRL+v and hit a key sequence to see it.
 
@@ -121,6 +121,11 @@ Plug 'tpope/vim-fugitive'
 let g:dirvish_relative_paths = 1
 Plug 'justinmk/vim-dirvish'
 Plug 'tpope/vim-eunuch'
+
+let g:fzf_preview_window = ['right:50%:hidden']
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+nnoremap <Leader>f :Files<CR>
 
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
