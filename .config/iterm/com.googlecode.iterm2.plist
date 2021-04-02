@@ -1415,6 +1415,8 @@
 	<true/>
 	<key>Print In Black And White</key>
 	<true/>
+	<key>RequireCmdForDraggingText</key>
+	<true/>
 	<key>SeparateStatusBarsPerPane</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
