@@ -38,8 +38,9 @@ alias cp='cp -i'
 alias g='git'
 alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias todo='vim $HOME/Documents/Dropbox/vimwiki/TODO.md'
-alias rg='rg --pcre2 --smart-case --follow --hidden --glob "!.git"'
 alias grep='grep --color=auto'
+RG_COMMON_OPTS="--smart-case --follow --hidden --glob \"!.git\""
+alias rg="rg --pcre2 $RG_COMMON_OPTS"
 # Also see: git config --get-regexp alias
 # }}}
 

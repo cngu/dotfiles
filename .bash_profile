@@ -12,7 +12,7 @@ export PATH=$PATH:/Applications/MacVim.app/Contents/bin
 # }}}
 
 # STYLING AND THEMING {{{
-export TERM="xterm-color" 
+export TERM="xterm-color"
 if [ $ITERM_SESSION_ID ]; then
   # If PC contains anything, add semicolon and space
   if [ ! -z "$PROMPT_COMMAND" ]; then
@@ -24,12 +24,12 @@ if [ $ITERM_SESSION_ID ]; then
   PROMPT_COMMAND=$PROMPT_COMMAND"$ITERM_TITLE"
 fi
 # }}}
-
 # ALIASES {{{
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias todo='vim $HOME/Documents/GoogleDrive/vimwiki/TODO.md'
 alias ls='ls -Gh'
-alias rg='rg --pcre2 --smart-case --hidden --glob "!.git"'
+RG_COMMON_OPTS="--smart-case --follow --hidden --glob \"!.git\""
+alias rg="rg --pcre2 $RG_COMMON_OPTS"
 # Also see: git config --get-regexp alias
 # }}}
 
