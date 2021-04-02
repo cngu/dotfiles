@@ -4,6 +4,8 @@
 <dict>
 	<key>AddNewTabAtEndOfTabs</key>
 	<false/>
+	<key>AllowDragOfTabIntoNewWindow</key>
+	<false/>
 	<key>CompactMinimalTabBarHeight</key>
 	<real>35</real>
 	<key>CopySelection</key>
