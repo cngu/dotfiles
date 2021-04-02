@@ -116,8 +116,11 @@ cnoremap <M-BS> <C-w>
 " Plugins {{{
 " ============================================================================
 call plug#begin(stdpath('data') . '/plugged')
-
 Plug 'tpope/vim-fugitive'
+
+let g:dirvish_relative_paths = 1
+Plug 'justinmk/vim-dirvish'
+Plug 'tpope/vim-eunuch'
 
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
