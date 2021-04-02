@@ -145,12 +145,12 @@ function! SetCommentString() abort
     set commentstring=//\ %s
   endif
 endfunction
-xmap <silent> gc  :call SetCommentString()<CR>:'<,'>Commentary<CR>
-nmap <silent> gc  :call SetCommentString()<CR><Plug>Commentary
-omap <silent> gc  <Plug>Commentary
-nmap <silent> gcc :call SetCommentString()<CR><Plug>CommentaryLine
-nmap <silent> cgc :call SetCommentString()<CR><Plug>ChangeCommentary
-nmap <silent> gcu :call SetCommentString()<CR><Plug>Commentary<Plug>Commentary
+xnoremap <silent> gc  :call SetCommentString()<CR>:'<,'>Commentary<CR>
+nmap     <silent> gc  :call SetCommentString()<CR><Plug>Commentary
+omap     <silent> gc  <Plug>Commentary
+nmap     <silent> gcc :call SetCommentString()<CR><Plug>CommentaryLine
+nmap     <silent> cgc :call SetCommentString()<CR><Plug>ChangeCommentary
+nmap     <silent> gcu :call SetCommentString()<CR><Plug>Commentary<Plug>Commentary
 
 " Disable vim-vue pug/scss/etc pre-processors for performance.
 " Without this, editing and searching (with /) is sluggish.
