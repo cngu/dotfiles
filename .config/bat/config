@@ -1,1 +1,4 @@
---theme="Monokai Extended Bright"
+--theme="OneHalfDark"
+--style="numbers"
+--color=always
+--line-range=:500

@@ -34,6 +34,10 @@ Nerd Fonts: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts
 - jq
 - tidy-html5
 - bat
+  ```
+  bat cache --clear
+  bat cache --build
+  ```
 - thefuck
 - fasd
 
