@@ -141,13 +141,13 @@ Plug 'tpope/vim-commentary'
 function! SetCommentString() abort
   let l:ft = context_filetype#get().filetype
   if l:ft =~ 'css'
-    set commentstring=/*\ %s\ */
+    setlocal commentstring=/*\ %s\ */
   elseif l:ft ==# 'pug'
-    set commentstring=//-\ %s
+    setlocal commentstring=//-\ %s
   elseif l:ft ==# 'html'
-    set commentstring=<!--\ %s\ -->
+    setlocal commentstring=<!--\ %s\ -->
   else
-    set commentstring=//\ %s
+    setlocal commentstring<
   endif
 endfunction
 xnoremap <silent> gc  :call SetCommentString()<CR>:'<,'>Commentary<CR>
