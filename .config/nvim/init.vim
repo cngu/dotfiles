@@ -122,10 +122,12 @@ let g:dirvish_relative_paths = 1
 Plug 'justinmk/vim-dirvish'
 Plug 'tpope/vim-eunuch'
 
+let g:fzf_layout = { 'down': '40%' }
 let g:fzf_preview_window = ['right:50%:hidden']
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 nnoremap <Leader>f :Files<CR>
+nnoremap <Leader>s :Rg<Space>
 
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
