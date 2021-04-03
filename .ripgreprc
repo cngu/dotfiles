@@ -1,0 +1,11 @@
+--smart-case
+--follow
+--hidden
+--glob=!.git/*
+
+# Don't let ripgrep vomit really long lines to my terminal, and show a preview.
+--max-columns=150
+--max-columns-preview
+
+# Make column match line
+--colors=column:fg:green

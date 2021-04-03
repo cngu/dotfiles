@@ -28,6 +28,7 @@ setopt CORRECT
 # PATH Environment {{{
 export PATH=$PATH:/Applications/MacVim.app/Contents/bin
 export VISUAL=nvim
+export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 # }}}
 
 # ALIASES {{{
@@ -39,8 +40,6 @@ alias g='git'
 alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias todo='vim $HOME/Documents/Dropbox/vimwiki/TODO.md'
 alias grep='grep --color=auto'
-RG_COMMON_OPTS="--smart-case --follow --hidden --glob \"!.git\""
-alias rg="rg --pcre2 $RG_COMMON_OPTS"
 # Also see: git config --get-regexp alias
 # }}}
 

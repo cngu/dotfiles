@@ -9,6 +9,7 @@ export IDEA_JDK=$JAVA_HOME
 
 export PATH=$PATH:/Users/cnguyen/libs/mongodb/bin
 export PATH=$PATH:/Applications/MacVim.app/Contents/bin
+export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 # }}}
 
 # STYLING AND THEMING {{{
@@ -28,8 +29,6 @@ fi
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias todo='vim $HOME/Documents/GoogleDrive/vimwiki/TODO.md'
 alias ls='ls -Gh'
-RG_COMMON_OPTS="--smart-case --follow --hidden --glob \"!.git\""
-alias rg="rg --pcre2 $RG_COMMON_OPTS"
 # Also see: git config --get-regexp alias
 # }}}
 
