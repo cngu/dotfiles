@@ -76,3 +76,11 @@ Nerd Fonts: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts
 ## TODO
 
 - iTerm text color should stay the same even while selected: https://gitlab.com/gnachman/iterm2/-/issues/8761
+- Responsive statusline hides items when window width is below a given value
+- nvim-treesitter
+  - colorscheme, indentation, built-in LSP
+  - If built-in to Neovim 0.5, no need to install plugin
+  - Consider replacing onedark.vim if it doesn't support treesitter
+  - Remove vim-polyglot
+  - Vue support: https://github.com/ikatyang/tree-sitter-vue/issues/2
+  - Ale? Prettier? ESLint?
