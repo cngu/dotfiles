@@ -1,4 +1,4 @@
-## *Setup dotfiles*
+## Setup dotfiles
 
 https://www.atlassian.com/git/tutorials/dotfiles
 
@@ -10,7 +10,7 @@ dotfiles checkout
 dotfiles config --local status.showUntrackedFiles no
 ```
 
-## *Tooling*
+## Tooling
 
 **Fonts**
 Nerd Fonts: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts
