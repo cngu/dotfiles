@@ -62,7 +62,7 @@ Plug 'junegunn/vim-slash'
     noremap <expr> <plug>(slash-after) slash#blink(2, 50)
   endif
 
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
   command! -bang -nargs=? -complete=dir Files
         \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
