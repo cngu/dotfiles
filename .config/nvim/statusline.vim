@@ -38,27 +38,153 @@ let s:mode_colors = {
 \ }
 
 let s:hl_groups = {
-  \ 'bubble':          'MyStatusLineBubble',
-  \ 'bubble_bright':   'MyStatusLineBubbleBright',
-  \ 'disabled':        'MyStatusLineDisabled',
-  \ 'disabled_bright': 'MyStatusLineDisabledBright',
-  \ 'badge':           'MyStatusLineBadge',
-  \ 'file':            'MyStatusLineFile',
-  \ 'lock_inactive':   'MyStatusLineLockInactive',
-  \ 'lock_active':     'MyStatusLineLockActive',
-  \ 'modified_clean':  'MyStatusLineModifiedClean',
-  \ 'modified_dirty':  'MyStatusLineModifiedDirty',
-  \ 'branch':          'MyStatusLineBranch',
-  \ 'linecol':         'MyStatusLineLineCol',
-  \ 'progress':        'MyStatusLineProgress'
+  \ 'bubble':         'MyStatusLineBubble',
+  \ 'bubble_bright':  'MyStatusLineBubbleBright',
+  \ 'disabled':       'MyStatusLineDisabled',
+  \ 'badge':          'MyStatusLineBadge',
+  \ 'file':           'MyStatusLineFile',
+  \ 'lock_active':    'MyStatusLineLockActive',
+  \ 'lock_inactive':  'MyStatusLineLockInactive',
+  \ 'modified_clean': 'MyStatusLineModifiedClean',
+  \ 'modified_dirty': 'MyStatusLineModifiedDirty',
+  \ 'branch':         'MyStatusLineBranch',
+  \ 'linecol':        'MyStatusLineLineCol',
+  \ 'progress':       'MyStatusLineProgress'
 \ }
 
-let s:hl_group_active_pairs = {
-  \ 'badge':    [s:hl_groups.disabled_bright, s:hl_groups.badge],
-  \ 'file':     [s:hl_groups.disabled,        s:hl_groups.file],
-  \ 'branch':   [s:hl_groups.disabled,        s:hl_groups.branch],
-  \ 'linecol':  [s:hl_groups.disabled,        s:hl_groups.linecol],
-  \ 'progress': [s:hl_groups.disabled,        s:hl_groups.progress]
+" Components without 'highlight' will inherit previous component's highlight
+let s:components = {
+  \ 'separator': {
+    \ 'text': ' '
+  \ },
+  \ 'bubble_left': {
+    \ 'text': s:icon_circle_left,
+    \ 'highlight': s:hl_groups.bubble
+  \ },
+  \ 'bubble_left_bright': {
+    \ 'text': s:icon_circle_left,
+    \ 'highlight': s:hl_groups.bubble_bright
+  \ },
+  \ 'bubble_middle': {
+    \ 'text': ' ',
+    \ 'highlight': s:hl_groups.disabled
+  \ },
+  \ 'bubble_right': {
+    \ 'text': s:icon_circle_right,
+    \ 'highlight': s:hl_groups.bubble
+  \ },
+  \ 'badge': {
+    \ 'text': s:icon_star . ' ' ,
+    \ 'highlight': s:hl_groups.badge
+  \ },
+  \ 'file_active': {
+    \ 'text': ' %f',
+    \ 'highlight': s:hl_groups.file
+  \ },
+  \ 'file_inactive': {
+    \ 'text': ' %f',
+    \ 'highlight': s:hl_groups.disabled
+  \ },
+  \ 'lock_active': {
+    \ 'render': 'RenderLockActive',
+    \ 'highlight': s:hl_groups.lock_active
+  \ },
+  \ 'lock_inactive': {
+    \ 'render': 'RenderLockInactive',
+    \ 'highlight': s:hl_groups.lock_inactive
+  \ },
+  \ 'modified_clean': {
+    \ 'render': 'RenderModifiedClean',
+    \ 'highlight': s:hl_groups.modified_clean
+  \ },
+  \ 'modified_dirty': {
+    \ 'render': 'RenderModifiedDirty',
+    \ 'highlight': s:hl_groups.modified_dirty
+  \ },
+  \ 'branch_active': {
+    \ 'render': 'RenderBranch',
+    \ 'highlight': s:hl_groups.branch
+  \ },
+  \ 'branch_inactive': {
+    \ 'render': 'RenderBranch',
+    \ 'highlight': s:hl_groups.disabled
+  \ },
+  \ 'linecol_active': {
+    \ 'text': '%l:%c',
+    \ 'highlight': s:hl_groups.linecol
+  \ },
+  \ 'linecol_inactive': {
+    \ 'text': '%l:%c',
+    \ 'highlight': s:hl_groups.disabled
+  \ },
+  \ 'progress_active': {
+    \ 'text': '%P/%L',
+    \ 'highlight': s:hl_groups.progress
+  \ },
+  \ 'progress_inactive': {
+    \ 'text': '%P/%L',
+    \ 'highlight': s:hl_groups.disabled
+  \ }
+\ }
+
+let s:line_components = {
+  \ 'active': {
+    \ 'left': [
+      \ s:components.bubble_left_bright,
+      \ s:components.badge,
+      \ s:components.file_active,
+      \ s:components.bubble_right,
+      \ s:components.separator,
+      \ s:components.bubble_left,
+      \ s:components.lock_active,
+      \ s:components.lock_inactive,
+      \ s:components.modified_clean,
+      \ s:components.modified_dirty,
+      \ s:components.bubble_right
+    \ ],
+    \ 'right': [
+      \ s:components.bubble_left,
+      \ s:components.branch_active,
+      \ s:components.bubble_right,
+      \ s:components.separator,
+      \ s:components.bubble_left,
+      \ s:components.linecol_active,
+      \ s:components.bubble_right,
+      \ s:components.separator,
+      \ s:components.bubble_left,
+      \ s:components.progress_active,
+      \ s:components.bubble_right
+    \ ]
+  \ },
+  \ 'inactive': {
+    \ 'left': [
+      \ s:components.bubble_left,
+      \ s:components.bubble_middle,
+      \ s:components.bubble_middle,
+      \ s:components.file_inactive,
+      \ s:components.bubble_right,
+      \ s:components.separator,
+      \ s:components.bubble_left,
+      \ s:components.lock_active,
+      \ s:components.lock_inactive,
+      \ s:components.modified_clean,
+      \ s:components.modified_dirty,
+      \ s:components.bubble_right
+    \ ],
+    \ 'right': [
+      \ s:components.bubble_left,
+      \ s:components.branch_inactive,
+      \ s:components.bubble_right,
+      \ s:components.separator,
+      \ s:components.bubble_left,
+      \ s:components.linecol_inactive,
+      \ s:components.bubble_right,
+      \ s:components.separator,
+      \ s:components.bubble_left,
+      \ s:components.progress_inactive,
+      \ s:components.bubble_right
+    \ ]
+  \ }
 \ }
 
 function! s:Highlight(group, fg, ...) abort
@@ -75,20 +201,13 @@ endfunction
 
 call s:Highlight(s:hl_groups.bubble, s:colors.black)
 call s:Highlight(s:hl_groups.bubble_bright, s:colors.bright_black)
-
 call s:Highlight(s:hl_groups.disabled, s:colors.bright_black, s:colors.black)
-call s:Highlight(s:hl_groups.disabled_bright, s:colors.bright_black, s:colors.bright_black)
-
 call s:Highlight(s:hl_groups.lock_inactive, s:colors.bright_black, s:colors.black)
 call s:Highlight(s:hl_groups.lock_active, s:colors.red, s:colors.black)
-
 call s:Highlight(s:hl_groups.modified_clean, s:colors.bright_black, s:colors.black)
 call s:Highlight(s:hl_groups.modified_dirty, s:colors.red, s:colors.black)
-
 call s:Highlight(s:hl_groups.branch, s:colors.magenta, s:colors.black)
-
 call s:Highlight(s:hl_groups.linecol, s:colors.green, s:colors.black)
-
 call s:Highlight(s:hl_groups.progress, s:colors.cyan, s:colors.black)
 
 " Highlight notes:
@@ -150,26 +269,26 @@ function! HighlightMode(mode) abort
   return ''
 endfunction
 
-function! RenderLockInactive(window_active, modifiable, readonly) abort
+function! RenderLockInactive(window_active) abort
   " Right padding in case the 'modified' circle is also shown
-  let l:icon = s:icon_lock . (a:modifiable ? ' ' : '')
-  return (!a:window_active && (!a:modifiable || a:readonly)) ? l:icon : ''
+  let l:icon = s:icon_lock . (&modifiable ? ' ' : '')
+  return (!a:window_active && (!&modifiable || &readonly)) ? l:icon : ''
 endfunction
 
-function! RenderLockActive(window_active, modifiable, readonly) abort
-  let l:icon = s:icon_lock . (a:modifiable ? ' ' : '')
-  return (a:window_active && (!a:modifiable || a:readonly)) ? l:icon : ''
+function! RenderLockActive(window_active) abort
+  let l:icon = s:icon_lock . (&modifiable ? ' ' : '')
+  return (a:window_active && (!&modifiable || &readonly)) ? l:icon : ''
 endfunction
 
-function! RenderModifiedClean(modifiable, modified) abort
-  return (a:modifiable && !a:modified) ? s:icon_circle : ''
+function! RenderModifiedClean(...) abort
+  return (&modifiable && !&modified) ? s:icon_circle : ''
 endfunction
 
-function! RenderModifiedDirty(modifiable, modified) abort
-  return (a:modifiable && a:modified) ? s:icon_circle : ''
+function! RenderModifiedDirty(...) abort
+  return (&modifiable && &modified) ? s:icon_circle : ''
 endfunction
 
-function! RenderBranch() abort
+function! RenderBranch(...) abort
   let l:branch = get(w:render_cache, 'branch', 'cache_miss')
   if l:branch ==# 'cache_miss'
     let l:branch = FugitiveHead()
@@ -182,20 +301,42 @@ function! RenderBranch() abort
   endif
 endfunction
 
-augroup vimrc
-  autocmd WinEnter,BufEnter * call s:OnActiveWindowChange(1)
-  autocmd WinLeave          * call s:OnActiveWindowChange(0)
+function! s:RenderComponent(component, window_active) abort
+  let l:result = ''
+  if has_key(a:component, 'highlight')
+    let l:result .= '%#' . a:component.highlight . '#'
+  endif
+  if has_key(a:component, 'render')
+    let l:result .= '%{' . a:component.render . '(''' . a:window_active . ''')}'
+  else
+    let l:result .= a:component.text
+  endif
+  return l:result
+endfunction
 
-  " When launching Vim with multiple windows via '-O', render the
-  " statusline of all inactive windows once.
-  autocmd VimEnter * ++once call s:RenderInactiveWindowStatusLines()
-augroup END
+function! s:RenderStatusLine(window_id, window_active) abort
+  if a:window_active
+    let l:components = s:line_components.active
+  else
+    let l:components = s:line_components.inactive
+  endif
+
+  let l:line = '%{HighlightMode(mode())}'
+  for component in l:components.left
+    let l:line .= s:RenderComponent(component, a:window_active)
+  endfor
+  let l:line .= '%='
+  for component in l:components.right
+    let l:line .= s:RenderComponent(component, a:window_active)
+  endfor
+
+  if getwinvar(a:window_id, '&statusline') != l:line
+    call setwinvar(a:window_id, '&statusline', l:line)
+  endif
+endfunction
 
 function! s:InitState(window_id) abort
-  call setwinvar(a:window_id, 'render_cache', {
-    \ 'mode': '',
-    \ 'branch': ''
-  \ })
+  call setwinvar(a:window_id, 'render_cache', {})
 endfunction
 
 function! s:OnActiveWindowChange(window_active) abort
@@ -214,39 +355,12 @@ function! s:RenderInactiveWindowStatusLines() abort
   endfor
 endfunction
 
-function! s:RenderStatusLine(window_id, window_active) abort
-  let l:line = '%{HighlightMode(mode())}'
+augroup vimrc
+  autocmd WinEnter,BufEnter * call s:OnActiveWindowChange(1)
+  autocmd WinLeave          * call s:OnActiveWindowChange(0)
 
-  " Left side
-  let l:line .= '%#' . s:hl_groups.bubble_bright . '#' . s:icon_circle_left
-  let l:line .= '%#' . s:hl_group_active_pairs.badge[a:window_active] . '#' . s:icon_star . ' '
-  let l:line .= '%#' . s:hl_group_active_pairs.file[a:window_active] . '# %f'
-  let l:line .= '%#' . s:hl_groups.bubble . '#' . s:icon_circle_right
-  let l:line .= ' '
-  let l:line .= '%#' . s:hl_groups.bubble . '#' . s:icon_circle_left
-  let l:line .= '%#MyStatusLineLockInactive#%{RenderLockInactive(''' . a:window_active . ''',&modifiable,&readonly)}'
-  let l:line .= '%#MyStatusLineLockActive#%{RenderLockActive(''' . a:window_active . ''',&modifiable,&readonly)}'
-  let l:line .= '%#MyStatusLineModifiedClean#%{RenderModifiedClean(&modifiable,&modified)}'
-  let l:line .= '%#MyStatusLineModifiedDirty#%{RenderModifiedDirty(&modifiable,&modified)}'
-  let l:line .= '%#' . s:hl_groups.bubble . '#' . s:icon_circle_right
+  " When launching Vim with multiple windows via '-O', render the
+  " statusline of all inactive windows once.
+  autocmd VimEnter * ++once call s:RenderInactiveWindowStatusLines()
+augroup END
 
-  " Spacer between left and right items
-  let l:line .= '%='
-
-  " Right side
-  let l:line .= '%#' . s:hl_groups.bubble . '#' . s:icon_circle_left
-  let l:line .= '%#' . s:hl_group_active_pairs.branch[a:window_active] . '#%{RenderBranch()}'
-  let l:line .= '%#' . s:hl_groups.bubble . '#' . s:icon_circle_right
-  let l:line .= ' '
-  let l:line .= '%#' . s:hl_groups.bubble . '#' . s:icon_circle_left
-  let l:line .= '%#' . s:hl_group_active_pairs.linecol[a:window_active] . '#%l:%c'
-  let l:line .= '%#' . s:hl_groups.bubble . '#' . s:icon_circle_right
-  let l:line .= ' '
-  let l:line .= '%#' . s:hl_groups.bubble . '#' . s:icon_circle_left
-  let l:line .= '%#' . s:hl_group_active_pairs.progress[a:window_active] . '#%P/%L'
-  let l:line .= '%#' . s:hl_groups.bubble . '#' . s:icon_circle_right
-
-  if getwinvar(a:window_id, '&statusline') != l:line
-    call setwinvar(a:window_id, '&statusline', l:line)
-  endif
-endfunction
