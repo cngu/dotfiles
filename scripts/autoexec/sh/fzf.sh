@@ -7,6 +7,7 @@ export FZF_DEFAULT_COMMAND="rg --files"
 # We don't use 0-15 here because that maps to 256 colors on Vim due to termguicolors, not the terminal colors.
 export FZF_DEFAULT_OPTS='
   --multi
+  --layout=reverse
   --info=inline
   --bind ctrl-a:toggle-all
   --bind ctrl-h:toggle-preview
