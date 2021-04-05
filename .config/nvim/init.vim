@@ -142,7 +142,10 @@ Plug 'Shougo/context_filetype.vim'
 Plug 'tpope/vim-commentary'
 function! SetCommentString() abort
   let l:ft = context_filetype#get().filetype
-  if l:ft =~ 'css'
+
+  if l:ft ==# 'javascript'
+    setlocal commentstring=//\ %s
+  elseif l:ft =~ 'css'
     setlocal commentstring=/*\ %s\ */
   elseif l:ft ==# 'pug'
     setlocal commentstring=//-\ %s
