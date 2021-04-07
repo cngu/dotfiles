@@ -168,7 +168,7 @@ nmap     <silent> gcu :call SetCommentString()<CR><Plug>Commentary<Plug>Commenta
 " vim-vue-plugin is just as slow, but has better syntax highlighting, and
 " it expects an OnChangeVueSubtype callback instead of context_filetype.vim.
 let g:vue_pre_processors = []
-let g:polyglot_disabled = ['vue']
+let g:polyglot_disabled = []
 Plug 'sheerun/vim-polyglot'
 
 Plug 'joshdick/onedark.vim'
