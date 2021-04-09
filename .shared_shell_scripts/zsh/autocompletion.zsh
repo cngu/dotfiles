@@ -1,3 +1,8 @@
+# https://github.com/xero/dotfiles/tree/master/zsh/.zsh
+autoload -Uz compinit
+compinit -u
+source $HOME/.shared_shell_scripts/zsh/completion/npm
+
 # Highlight selection background as you tab through autocomplete options
 zstyle ':completion:*' menu select
 

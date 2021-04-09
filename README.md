@@ -21,10 +21,6 @@ Nerd Fonts: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts
 
 **Homebrew**
 - git
-  ```
-  cd /usr/local/bin
-  ln -s ~/scripts/custom-git-commands/git-*
-  ```
 - git-lfs
 - powerlevel10k
   - `p10k configure`
@@ -47,18 +43,7 @@ Nerd Fonts: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts
 
 **Vim**
 - vim-plug: https://github.com/junegunn/vim-plug
-  - Install to `~/.config/nvim/autoload/plug.vim
-
-**cngu iTerm colorscheme**
-- Ephemeral base
-- Black darkened by 5%: #33404F
-- Bright Black lightened by 3%: #5C7087
-- Background taken from onedark.vim so terminal and vim match: #282c34
-- 'Cursor text' matches 'Background' (from onedark.vim)
-- 'Cursor' matches 'Foreground'
-- Until iTerm allows preserving selected color text (see TODO below)
-  - 'Selection' set to onedark.vim background: #3E4452
-  - 'Selected text' matches 'Foreground'
+  - Install to `~/.config/nvim/autoload/plug.vim`
 
 ## macOS setup
 
@@ -72,6 +57,19 @@ Nerd Fonts: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts
 **Terminal.app**
 - Terminal > Preferences > Profiles > Keyboard > "Use Option as Meta key" (fzf Option-a select-all)
 - defaults write -g ApplePressAndHoldEnabled -bool false
+
+**iTerm2**
+- Enable iTerm Shell Integration?
+- cngu iTerm colorscheme
+  - Ephemeral base
+  - Black darkened by 5%: #33404F
+  - Bright Black lightened by 3%: #5C7087
+  - Background taken from onedark.vim so terminal and vim match: #282c34
+  - 'Cursor text' matches 'Background' (from onedark.vim)
+  - 'Cursor' matches 'Foreground'
+  - Until iTerm allows preserving selected color text (see TODO below)
+    - 'Selection' set to onedark.vim background: #3E4452
+    - 'Selected text' matches 'Foreground'
 
 ## TODO
 

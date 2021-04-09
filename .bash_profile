@@ -1,18 +1,34 @@
-# LIBRARIES, BINARIES, TOOLS, etc. {{{
+# Environment {{{
+export PATH="$PATH:$HOME/bin"
+export PATH=$PATH:/Users/cnguyen/libs/mongodb/bin
+export PATH=$PATH:/Applications/MacVim.app/Contents/bin
+
+export VISUAL=nvim
+
+export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-#. "$(brew --prefix nvm)/nvm.sh"
 
 export JAVA_HOME=$(/usr/libexec/java_home)
 export IDEA_JDK=$JAVA_HOME
-
-export PATH=$PATH:/Users/cnguyen/libs/mongodb/bin
-export PATH=$PATH:/Applications/MacVim.app/Contents/bin
-export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+#. "$(brew --prefix nvm)/nvm.sh"
 # }}}
 
-# STYLING AND THEMING {{{
+# Alias {{{
+alias ls='ls -GFh'
+alias mv='mv -i'
+alias rm='rm -i'
+alias cp='cp -i'
+alias g='git'
+alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias todo='nvim $HOME/Documents/Dropbox/vimwiki/TODO.md'
+alias grep='grep --color=auto'
+# Also see: git config --get-regexp alias
+# }}}
+
+# Prompt {{{
 export TERM="xterm-color"
 if [ $ITERM_SESSION_ID ]; then
   # If PC contains anything, add semicolon and space
@@ -25,15 +41,10 @@ if [ $ITERM_SESSION_ID ]; then
   PROMPT_COMMAND=$PROMPT_COMMAND"$ITERM_TITLE"
 fi
 # }}}
-# ALIASES {{{
-alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias todo='vim $HOME/Documents/GoogleDrive/vimwiki/TODO.md'
-alias ls='ls -Gh'
-# Also see: git config --get-regexp alias
-# }}}
+
 
 # CUSTOM SCRIPTS {{{
-for script in $HOME/scripts/autoexec/(sh|bash)/*.sh; do
+for script in $HOME/.shared_shell_scripts/(sh|bash)/*.sh; do
   source $script
 done
 # }}}
@@ -67,10 +78,3 @@ jd()
         cd **"/$1"
     fi
 }
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/cnguyen/libs/google-cloud-sdk/path.bash.inc' ]; then source '/Users/cnguyen/libs/google-cloud-sdk/path.bash.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/cnguyen/libs/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/cnguyen/libs/google-cloud-sdk/completion.bash.inc'; fi
-# }}}

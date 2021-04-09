@@ -1,5 +1,3 @@
-#!/bin/bash
-
 echo
 #ls ~/Library/Application\ Support/SMART\ Technologies/Notebook\ Software/Addon\ Cache/com.smarttech.lab
 rm -rfv ~/Library/Application\ Support/SMART\ Technologies/Notebook\ Software/Addon\ Cache/com.smarttech.lab

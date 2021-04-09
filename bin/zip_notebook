@@ -1,0 +1,6 @@
+if [[ -z "$1" ]]; then
+  echo "Usage: zip_notebook Name.notebook"
+  exit 1
+fi
+
+zip -R ../$1 "*"
