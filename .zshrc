@@ -57,6 +57,8 @@ alias grep='grep --color=auto'
 
 # Terminal Tab Title {{{
 if [ $ITERM_SESSION_ID ]; then
+  autoload -Uz add-zsh-hook
+
   DISABLE_AUTO_TITLE="true"
   tab_title() {
     local path="${PWD/$HOME/~}"
@@ -81,9 +83,6 @@ autoload -Uz _zinit
 ### End of Zinit installer's chunk
 
 zinit light lukechilds/zsh-nvm
-
-zinit ice from"gh" wait"1" silent pick"zsh-history-substring-search.plugin.zsh" lucid
-zinit light zsh-users/zsh-history-substring-search
 
 # Causes noticable lag when typing.
 # Also syntax highlighting should be loaded last.
