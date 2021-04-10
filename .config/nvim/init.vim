@@ -101,7 +101,7 @@ vnoremap x "_x
 nnoremap X "_X
 vnoremap X "_X
 vnoremap R "_R
-vnoremap <leader>p "_dP
+vnoremap p "_dP
 
 " Option+Left/Right to navigate by word in command mode.
 " Option+Left/Right+Backspace to delete word before cursor.
