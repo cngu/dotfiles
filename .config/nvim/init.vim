@@ -149,18 +149,18 @@ function! SetCommentString() abort
     setlocal commentstring=/*\ %s\ */
   elseif l:ft ==# 'pug'
     setlocal commentstring=//-\ %s
-  elseif l:ft ==# 'html'
+  elseif l:ft ==# 'html' || l:ft ==# 'vue'
     setlocal commentstring=<!--\ %s\ -->
-  else
-    setlocal commentstring<
   endif
 endfunction
-xnoremap <silent> gc  :call SetCommentString()<CR>:'<,'>Commentary<CR>
-nmap     <silent> gc  :call SetCommentString()<CR><Plug>Commentary
-omap     <silent> gc  <Plug>Commentary
-nmap     <silent> gcc :call SetCommentString()<CR><Plug>CommentaryLine
-nmap     <silent> cgc :call SetCommentString()<CR><Plug>ChangeCommentary
-nmap     <silent> gcu :call SetCommentString()<CR><Plug>Commentary<Plug>Commentary
+augroup vimrc
+  autocmd FileType html,vue xnoremap <silent> gc  :call SetCommentString()<CR>:'<,'>Commentary<CR>
+  autocmd FileType html,vue nmap     <silent> gc  :call SetCommentString()<CR><Plug>Commentary
+  autocmd FileType html,vue omap     <silent> gc  <Plug>Commentary
+  autocmd FileType html,vue nmap     <silent> gcc :call SetCommentString()<CR><Plug>CommentaryLine
+  autocmd FileType html,vue nmap     <silent> cgc :call SetCommentString()<CR><Plug>ChangeCommentary
+  autocmd FileType html,vue nmap     <silent> gcu :call SetCommentString()<CR><Plug>Commentary<Plug>Commentary
+augroup END
 
 " Disable vim-vue pug/scss/etc pre-processors for performance.
 " Without this, editing and searching (with /) is sluggish.
