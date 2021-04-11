@@ -49,7 +49,8 @@ let s:hl_groups = {
   \ 'modified_dirty': 'MyStatusLineModifiedDirty',
   \ 'branch':         'MyStatusLineBranch',
   \ 'linecol':        'MyStatusLineLineCol',
-  \ 'progress':       'MyStatusLineProgress'
+  \ 'progress':       'MyStatusLineProgress',
+  \ 'tab':            'MyTab'
 \ }
 
 " Components without 'highlight' will inherit previous component's highlight
@@ -355,6 +356,9 @@ function! s:RenderInactiveWindowStatusLines() abort
   endfor
 endfunction
 
+"
+" Statusline
+"
 augroup vimrc
   autocmd WinEnter,BufEnter * call s:OnActiveWindowChange(1)
   autocmd WinLeave          * call s:OnActiveWindowChange(0)
@@ -364,3 +368,79 @@ augroup vimrc
   autocmd VimEnter * ++once call s:RenderInactiveWindowStatusLines()
 augroup END
 
+"
+" Tabline - mostly taken from :h tabline
+"
+function RenderTabLabel(tabnr) abort
+  let l:label = a:tabnr . ' '
+
+  " Tabs are numbered 1 to T.
+  " Every tab has windows 1 to N.
+  " Each window can show buffer B, where B is unique across windows and tabs.
+  let l:buflist = tabpagebuflist(a:tabnr)
+  let l:winnr = tabpagewinnr(a:tabnr)
+  let l:bufnr = l:buflist[l:winnr - 1]
+  let l:bufname = bufname(l:bufnr)
+  let l:filename = fnamemodify(l:bufname, ':t')
+  let l:filetype = getbufvar(l:bufnr, '&filetype')
+
+  " Found a weird buffer that doesn't have a &filetype?  Try &buftype.
+  if l:filetype ==# 'qf'
+    let l:label .= '[Quickfix]'
+  elseif l:filetype ==# 'fzf'
+    let l:label .= '[fzf]'
+  elseif l:filetype ==# 'help'
+    let l:label .= '[Help]'
+  else
+    let l:label = empty(l:filename) ? '[No Name]' : l:filename
+  endif
+
+  return l:label
+endfunction
+
+function s:HighlightTab(tabnr) abort
+  let l:buflist = tabpagebuflist(a:tabnr)
+  let l:modified = 0
+  for i in l:buflist
+    if getbufvar(i, '&modified')
+      let l:modified = 1
+      break
+    endif
+  endfor
+
+  if l:modified && a:tabnr ==# tabpagenr()
+    call s:Highlight(s:hl_groups.tab . a:tabnr, s:colors.magenta)
+  elseif l:modified
+    call s:Highlight(s:hl_groups.tab . a:tabnr, s:colors.red)
+  elseif a:tabnr ==# tabpagenr()
+    call s:Highlight(s:hl_groups.tab . a:tabnr, s:colors.blue)
+  else
+    call s:Highlight(s:hl_groups.tab . a:tabnr, s:colors.bright_black)
+  endif
+endfunction
+
+function! RenderTabLine() abort
+  let l:line = ''
+
+  for i in range(tabpagenr('$'))
+    let l:tabnr = i + 1
+
+    " Extra space between tabs
+    if l:tabnr > 1
+      let l:line .= ' '
+    endif
+
+    let l:line .= '%#' . s:hl_groups.tab . l:tabnr . '#'
+    let l:line .= '%' . l:tabnr . 'T'
+    let l:line .= '%{RenderTabLabel(' . l:tabnr . ')}%T '
+
+    call s:HighlightTab(l:tabnr)
+  endfor
+
+  " After the last tab, fill with TabLineFill
+  let l:line .= '%#TabLineFill#'
+
+  return l:line
+endfunction
+
+set tabline=%!RenderTabLine()
