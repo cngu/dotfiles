@@ -28,13 +28,14 @@ setopt CORRECT
 export PATH="$PATH:$HOME/bin"
 export PATH=$PATH:/Applications/MacVim.app/Contents/bin
 
+# n (Node version manager)
+export N_PREFIX=$HOME/.n
+export PATH=$N_PREFIX/bin:$PATH
+
+# Used by git commit
 export VISUAL=nvim
 
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
-
-# zsh-nvm
-export NVM_DIR="$HOME/.nvm"
-export NVM_LAZY_LOAD=true
 
 # Mirrors default LSCOLORS.
 # LS_COLORS is used by zsh autocompletion e.g ls -al <tab>
@@ -81,8 +82,6 @@ source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 ### End of Zinit installer's chunk
-
-zinit light lukechilds/zsh-nvm
 
 # Causes noticable lag when typing.
 # Also syntax highlighting should be loaded last.

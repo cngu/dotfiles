@@ -3,6 +3,11 @@ export PATH="$PATH:$HOME/bin"
 export PATH=$PATH:/Users/cnguyen/libs/mongodb/bin
 export PATH=$PATH:/Applications/MacVim.app/Contents/bin
 
+# n (Node version manager)
+export N_PREFIX=$HOME/.n
+export PATH=$N_PREFIX/bin:$PATH
+
+# Used by git commit
 export VISUAL=nvim
 
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"

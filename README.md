@@ -22,6 +22,7 @@ Nerd Fonts: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts
 **Homebrew**
 - git
 - git-lfs
+- n
 - powerlevel10k
   - `p10k configure`
   - Stick prompt to bottom: https://www.reddit.com/r/zsh/comments/dsh1g3/new_powerlevel10k_feature_transient_prompt/f6rmpgc/
