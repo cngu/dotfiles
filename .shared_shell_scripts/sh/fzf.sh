@@ -1,6 +1,7 @@
-export FZF_DEFAULT_COMMAND="rg --files"
-
-# Hidden binding to scroll preview window: Shift+Up and Shift+Down
+# Based on https://github.com/junegunn/dotfiles/blob/master/bashrc
+# Also see: https://github.com/junegunn/fzf/wiki/Configuring-shell-key-bindings
+#
+# Hidden binding to scroll preview window: Shift+Up and Shift+Down -or- Ctrl+Up and Ctrl+Down.
 # https://github.com/junegunn/fzf recommends NOT to add --preview option here. For manual preview: fzf --preview 'bat {}'
 #
 # Colors are a mix of terminal and elenapan's Ephemeral theme, except #CCCCCC, which is terminal White darkened by 10%.
@@ -18,3 +19,31 @@ export FZF_DEFAULT_OPTS='
   --color hl:#F48FB1,hl+:#F48FB1
   --color border:#323F4E
 '
+
+export FZF_CTRL_R_OPTS="
+  --header 'CTRL-Y: Copy to clipboard'
+  --color header:italic
+  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+  --preview 'echo {}'
+  --preview-window down:3:hidden:wrap
+"
+
+export FZF_CTRL_T_OPTS="
+  --preview 'bat {}'
+  --preview-window hidden
+"
+
+export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
+
+# NOTE: There is a performance issue because rg and fd use depth-first-search.
+# - https://github.com/BurntSushi/ripgrep/pull/1554
+# - https://github.com/sharkdp/fd/issues/599
+# - https://github.com/junegunn/fzf/issues/2059
+#
+# Potential improvements coming for fd
+# - https://github.com/sharkdp/fd/issues/734
+#
+# For ALT_C, consider: https://github.com/junegunn/blsd
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND='fd --type f --type d --hidden --follow --exclude .git'

@@ -22,12 +22,10 @@ Nerd Fonts: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts
 **Homebrew**
 - git
 - git-lfs
-- n
+- nvim
 - powerlevel10k
   - `p10k configure`
   - Stick prompt to bottom: https://www.reddit.com/r/zsh/comments/dsh1g3/new_powerlevel10k_feature_transient_prompt/f6rmpgc/
-- nvim
-- ripgrep
 - fzf
   ```
   $(brew --prefix)/opt/fzf/install
@@ -37,6 +35,10 @@ Nerd Fonts: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts
   bat cache --clear
   bat cache --build
   ```
+- fd
+- ripgrep
+- tree
+- n
 - jq
 - tidy-html5
 - thefuck
