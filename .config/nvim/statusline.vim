@@ -29,6 +29,7 @@ let s:colors = {
 let s:mode_colors = {
   \ 'n':  'blue',
   \ 'i':  'red',
+  \ 'r':  'yellow',
   \ 'R':  'yellow',
   \ 'v':  'magenta',
   \ 'V':  'magenta',
